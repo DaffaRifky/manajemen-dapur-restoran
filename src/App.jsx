@@ -1,12 +1,6 @@
-import './App.css'
+import './tailwind.css'
 
 function App() {
-
-  return (
-    <>
-      <p>hello world</p>
-    </>
-  )
 }
 
 export default App
