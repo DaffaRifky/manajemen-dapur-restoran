@@ -658,13 +658,13 @@ export default function LandingPage({ onNavigateToLogin }) {
                             )}
                         </div>
 
-                        <a
-                            href="/Login.jsx"
+                        <button
+                            onClick={onNavigateToLogin}
                             className="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs px-4 py-2 rounded-full border border-slate-300 shadow-sm transition-all hover:shadow-md cursor-pointer whitespace-nowrap shrink-0"
                         >
                             <User className="w-3.5 h-3.5" />
                             <span>{currentT.nav.login}</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </nav>
