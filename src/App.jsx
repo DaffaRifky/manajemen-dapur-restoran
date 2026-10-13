@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import LandingPage from "./LandingPage";
-import Login from "./Login";
+import { useState } from "react";
+import LandingPage from "../src.old/LandingPage";
+import Login from "../src.old/Login";
 
 export default function App() {
     // State untuk melacak halaman aktif: 'landing' atau 'login'
