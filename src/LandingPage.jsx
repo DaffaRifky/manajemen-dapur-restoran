@@ -67,7 +67,7 @@ export default function LandingPage({ onNavigateToLogin }) {
             },
             hero: {
                 badge: "NIKMATI PENGALAMAN KULINER TERBAIK & HIGIENIS",
-                title1: "Enjoyyyss Delicious Food",
+                title1: "Enjoy Delicious Food",
                 title2: "In Your",
                 title3: "Healthy Life",
                 desc: "Rasakan kecepatan penyajian makanan langsung dari koki profesional ke meja Anda berkat sistem otomatisasi dapur modern berteknologi mutakhir.",
