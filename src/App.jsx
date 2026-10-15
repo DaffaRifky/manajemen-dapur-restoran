@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-import { useState } from "react";
-import LandingPage from "../src/LandingPage";
-import Login from "../src/Login";
-
-export default function App() {
-    // State untuk melacak halaman aktif: 'landing' atau 'login'
-    const [currentPage, setCurrentPage] = useState("landing");
-
-    return (
-        <div>
-            {currentPage === "landing" ? (
-                // Mengirim fungsi perpindahan ke LandingPage
-                <LandingPage
-                    onNavigateToLogin={() => setCurrentPage("login")}
-                />
-            ) : (
-                // Mengirim fungsi kembali ke LandingPage dari halaman Login
-                <Login onNavigateToHome={() => setCurrentPage("landing")} />
-=======
 import React, { useState } from "react";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
@@ -88,7 +68,6 @@ export default function App() {
                     setOrders={setOrders}
                     onLogout={() => setCurrentPage("landing")}
                 />
->>>>>>> temp
             )}
         </div>
     );

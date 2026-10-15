@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @import "tailwindcss";
 
 :root {
@@ -17,20 +16,12 @@
   box-sizing: border-box;
 }
 
-=======
->>>>>>> temp
 html {
   scroll-behavior: smooth;
 }
 
 body {
-<<<<<<< HEAD
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-=======
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
->>>>>>> temp
   background-color: #b9d7fc;
   color: #1e293b;
 }
