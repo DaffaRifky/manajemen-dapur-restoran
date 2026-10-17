@@ -5,70 +5,59 @@ import WaiterDashboard from "./WaiterDashboard";
 import ChefDashboard from "./ChefDashboard";
 
 export default function App() {
-    const [currentPage, setCurrentPage] = useState("landing");
-    const [loggedInUser, setLoggedInUser] = useState("csdc");
+  const [currentPage, setCurrentPage] = useState("landing");
+  const [loggedInUser, setLoggedInUser] = useState("csdc");
 
-    // State Pesanan Bersama (Shared State antara Waiter & Chef)
-    const [orders, setOrders] = useState([
-        {
-            id: 1,
-            table: 1,
-            customer: "anes",
-            items: [{ name: "Ayam Bakar", price: 32000, qty: 1 }],
-            total: 32000,
-            status: "Siap diambil", // 'Diproses Dapur', 'Siap diambil', atau 'Sudah tersaji'
-            elapsedMinutes: 0,
-        },
-    ]);
+  // State Pesanan Bersama (Shared State antara Waiter & Chef)
+  // Dikosongkan total [] agar tidak ada pesanan bawaan sebelum Waiter membuatnya
+  const [orders, setOrders] = useState([]);
 
-    const handleLoginSuccess = (role, username) => {
-        if (username) setLoggedInUser(username);
+  const handleLoginSuccess = (role, username) => {
+    if (username) setLoggedInUser(username);
 
-        const lowerRole = role ? role.toLowerCase() : "";
+    const lowerRole = role ? role.toLowerCase() : "";
 
-        if (lowerRole === "waiter") {
-            setCurrentPage("waiter-dashboard");
-        } else if (lowerRole === "chef" || lowerRole === "koki") {
-            setCurrentPage("chef-dashboard");
-        } else {
-            alert(
-                `Login berhasil sebagai [${role.toUpperCase()}]. Dashboard untuk role ini sedang dalam pengembangan.`,
-            );
-        }
-    };
+    if (lowerRole === "waiter") {
+      setCurrentPage("waiter-dashboard");
+    } else if (lowerRole === "chef" || lowerRole === "koki") {
+      setCurrentPage("chef-dashboard");
+    } else {
+      alert(
+        `Login berhasil sebagai [${role.toUpperCase()}]. Dashboard untuk role ini sedang dalam pengembangan.`,
+      );
+    }
+  };
 
-    return (
-        <div>
-            {currentPage === "landing" && (
-                <LandingPage
-                    onNavigateToLogin={() => setCurrentPage("login")}
-                />
-            )}
+  return (
+    <div>
+      {currentPage === "landing" && (
+        <LandingPage onNavigateToLogin={() => setCurrentPage("login")} />
+      )}
 
-            {currentPage === "login" && (
-                <Login
-                    onNavigateToHome={() => setCurrentPage("landing")}
-                    onLoginSuccess={handleLoginSuccess}
-                />
-            )}
+      {currentPage === "login" && (
+        <Login
+          onNavigateToHome={() => setCurrentPage("landing")}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
 
-            {currentPage === "waiter-dashboard" && (
-                <WaiterDashboard
-                    username={loggedInUser}
-                    orders={orders}
-                    setOrders={setOrders}
-                    onLogout={() => setCurrentPage("landing")}
-                />
-            )}
+      {currentPage === "waiter-dashboard" && (
+        <WaiterDashboard
+          username={loggedInUser}
+          orders={orders}
+          setOrders={setOrders}
+          onLogout={() => setCurrentPage("landing")}
+        />
+      )}
 
-            {currentPage === "chef-dashboard" && (
-                <ChefDashboard
-                    username={loggedInUser}
-                    orders={orders}
-                    setOrders={setOrders}
-                    onLogout={() => setCurrentPage("landing")}
-                />
-            )}
-        </div>
-    );
+      {currentPage === "chef-dashboard" && (
+        <ChefDashboard
+          username={loggedInUser}
+          orders={orders}
+          setOrders={setOrders}
+          onLogout={() => setCurrentPage("landing")}
+        />
+      )}
+    </div>
+  );
 }
