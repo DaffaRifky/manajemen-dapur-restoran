@@ -25,7 +25,11 @@ import {
     X,    // <-- Ditambahkan
 } from "lucide-react";
 
-export default function LandingPage({ onNavigateToLogin }) {
+export default function LandingPage({
+  onNavigateToLogin,
+  onNavigateToPesanMenu,
+  menuList = [],
+}) {
   const [activeTab, setActiveTab] = useState("all");
   const [lang, setLang] = useState("ID"); // 'ID' or 'EN'
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -158,8 +162,7 @@ export default function LandingPage({ onNavigateToLogin }) {
         placeholderTable: "Contoh: Meja 05",
         btnSubmit: "Konfirmasi Reservasi Sekarang",
         qrText: "Scan barcode untuk memesan makanan",
-        qrSubtext:
-          "",
+        qrSubtext: "",
       },
       footer: {
         brandDesc:
@@ -297,226 +300,228 @@ export default function LandingPage({ onNavigateToLogin }) {
 
   const currentT = t[lang];
 
- const menuItems = [
-   // --- 10 MAKANAN (category: "main") ---
-   {
-     id: 1,
-     category: "main",
-     name: "Nasi Goreng Special",
-     desc:
-       lang === "ID"
-         ? "Nasi goreng spesial bumbu khas."
-         : "Special fried rice.",
-     price: "Rp 25.000",
-     image:
-       "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 2,
-     category: "main",
-     name: "Ayam Bakar Madu",
-     desc:
-       lang === "ID"
-         ? "Ayam bakar bumbu madu gurih."
-         : "Honey grilled chicken.",
-     price: "Rp 32.000",
-     image:
-       "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 3,
-     category: "main",
-     name: "Mie Goreng Jawa",
-     desc:
-       lang === "ID"
-         ? "Mie goreng ala Jawa autentik."
-         : "Javanese fried noodles.",
-     price: "Rp 23.000",
-     image:
-       "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 4,
-     category: "main",
-     name: "Sate Ayam Madura",
-     desc:
-       lang === "ID"
-         ? "Sate ayam bumbu kacang lezat."
-         : "Madura chicken satay.",
-     price: "Rp 28.000",
-     image:
-       "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 5,
-     category: "main",
-     name: "Bebek Goreng",
-     desc:
-       lang === "ID" ? "Bebek goreng renyah dan empuk." : "Crispy fried duck.",
-     price: "Rp 38.000",
-     image:
-       "https://images.unsplash.com/photo-1514944298352-fff884140a3e?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 6,
-     category: "main",
-     name: "Soto Ayam Lamongan",
-     desc:
-       lang === "ID"
-         ? "Soto ayam berkuah kuning gurih."
-         : "Lamongan chicken soto.",
-     price: "Rp 22.000",
-     image:
-       "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 7,
-     category: "main",
-     name: "Bakso Sapi Urat",
-     desc:
-       lang === "ID"
-         ? "Bakso sapi urat kenyal kuah segar."
-         : "Beef meatballs soup.",
-     price: "Rp 20.000",
-     image:
-       "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 8,
-     category: "main",
-     name: "Gado-Gado Jakarta",
-     desc:
-       lang === "ID"
-         ? "Sayuran segar bumbu kacang."
-         : "Indonesian vegetable salad.",
-     price: "Rp 18.000",
-     image:
-       "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 9,
-     category: "main",
-     name: "Nasi Uduk Komplit",
-     desc:
-       lang === "ID"
-         ? "Nasi uduk gurih lauk lengkap."
-         : "Complete fragrant coconut rice.",
-     price: "Rp 24.000",
-     image:
-       "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 10,
-     category: "main",
-     name: "Capcay Kuah Seafood",
-     desc:
-       lang === "ID"
-         ? "Tumis aneka sayur dan seafood."
-         : "Seafood vegetable stir-fry.",
-     price: "Rp 27.000",
-     image:
-       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
-   },
+  const menuItems = [
+    // --- 10 MAKANAN (category: "main") ---
+    {
+      id: 1,
+      category: "main",
+      name: "Nasi Goreng Special",
+      desc:
+        lang === "ID"
+          ? "Nasi goreng spesial bumbu khas."
+          : "Special fried rice.",
+      price: "Rp 25.000",
+      image:
+        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 2,
+      category: "main",
+      name: "Ayam Bakar Madu",
+      desc:
+        lang === "ID"
+          ? "Ayam bakar bumbu madu gurih."
+          : "Honey grilled chicken.",
+      price: "Rp 32.000",
+      image:
+        "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 3,
+      category: "main",
+      name: "Mie Goreng Jawa",
+      desc:
+        lang === "ID"
+          ? "Mie goreng ala Jawa autentik."
+          : "Javanese fried noodles.",
+      price: "Rp 23.000",
+      image:
+        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 4,
+      category: "main",
+      name: "Sate Ayam Madura",
+      desc:
+        lang === "ID"
+          ? "Sate ayam bumbu kacang lezat."
+          : "Madura chicken satay.",
+      price: "Rp 28.000",
+      image:
+        "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 5,
+      category: "main",
+      name: "Bebek Goreng",
+      desc:
+        lang === "ID" ? "Bebek goreng renyah dan empuk." : "Crispy fried duck.",
+      price: "Rp 38.000",
+      image:
+        "https://images.unsplash.com/photo-1514944298352-fff884140a3e?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 6,
+      category: "main",
+      name: "Soto Ayam Lamongan",
+      desc:
+        lang === "ID"
+          ? "Soto ayam berkuah kuning gurih."
+          : "Lamongan chicken soto.",
+      price: "Rp 22.000",
+      image:
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 7,
+      category: "main",
+      name: "Bakso Sapi Urat",
+      desc:
+        lang === "ID"
+          ? "Bakso sapi urat kenyal kuah segar."
+          : "Beef meatballs soup.",
+      price: "Rp 20.000",
+      image:
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 8,
+      category: "main",
+      name: "Gado-Gado Jakarta",
+      desc:
+        lang === "ID"
+          ? "Sayuran segar bumbu kacang."
+          : "Indonesian vegetable salad.",
+      price: "Rp 18.000",
+      image:
+        "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 9,
+      category: "main",
+      name: "Nasi Uduk Komplit",
+      desc:
+        lang === "ID"
+          ? "Nasi uduk gurih lauk lengkap."
+          : "Complete fragrant coconut rice.",
+      price: "Rp 24.000",
+      image:
+        "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 10,
+      category: "main",
+      name: "Capcay Kuah Seafood",
+      desc:
+        lang === "ID"
+          ? "Tumis aneka sayur dan seafood."
+          : "Seafood vegetable stir-fry.",
+      price: "Rp 27.000",
+      image:
+        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
+    },
 
-   // --- 10 MINUMAN (category: "drink") ---
-   {
-     id: 21,
-     category: "drink",
-     name: "Es Teh Manis",
-     desc: lang === "ID" ? "Teh manis dingin menyegarkan." : "Iced sweet tea.",
-     price: "Rp 6.000",
-     image:
-       "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 22,
-     category: "drink",
-     name: "Jus Jeruk Segar",
-     desc: lang === "ID" ? "Jus buah jeruk asli." : "Fresh orange juice.",
-     price: "Rp 14.000",
-     image:
-       "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 23,
-     category: "drink",
-     name: "Es Jeruk Nipis",
-     desc: lang === "ID" ? "Perasan jeruk nipis segar." : "Lime ice.",
-     price: "Rp 10.000",
-     image:
-       "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 24,
-     category: "drink",
-     name: "Es Campur Bandung",
-     desc:
-       lang === "ID"
-         ? "Es campur buah dan agar."
-         : "Bandung mixed ice dessert.",
-     price: "Rp 18.000",
-     image:
-       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 25,
-     category: "drink",
-     name: "Jus Alpukat",
-     desc: lang === "ID" ? "Jus alpukat susu cokelat." : "Avocado juice.",
-     price: "Rp 16.000",
-     image:
-       "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 26,
-     category: "drink",
-     name: "Es Teler Special",
-     desc:
-       lang === "ID"
-         ? "Es teler buah nangka dan alpukat."
-         : "Special teler ice.",
-     price: "Rp 19.000",
-     image:
-       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 27,
-     category: "drink",
-     name: "Kopi Susu Gula Aren",
-     desc:
-       lang === "ID" ? "Kopi susu gula aren legit." : "Palm sugar milk coffee.",
-     price: "Rp 20.000",
-     image:
-       "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 28,
-     category: "drink",
-     name: "Teh Tawar Hangat",
-     desc: lang === "ID" ? "Teh tawar hangat alami." : "Warm plain tea.",
-     price: "Rp 4.000",
-     image:
-       "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 29,
-     category: "drink",
-     name: "Es Lemon Tea",
-     desc: lang === "ID" ? "Teh lemon dingin segar." : "Iced lemon tea.",
-     price: "Rp 12.000",
-     image:
-       "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-   },
-   {
-     id: 30,
-     category: "drink",
-     name: "Jus Mangga",
-     desc: lang === "ID" ? "Jus buah mangga manis." : "Mango juice.",
-     price: "Rp 17.000",
-     image:
-       "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80",
-   },
- ];
+    // --- 10 MINUMAN (category: "drink") ---
+    {
+      id: 21,
+      category: "drink",
+      name: "Es Teh Manis",
+      desc: lang === "ID" ? "Teh manis dingin menyegarkan." : "Iced sweet tea.",
+      price: "Rp 6.000",
+      image:
+        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 22,
+      category: "drink",
+      name: "Jus Jeruk Segar",
+      desc: lang === "ID" ? "Jus buah jeruk asli." : "Fresh orange juice.",
+      price: "Rp 14.000",
+      image:
+        "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 23,
+      category: "drink",
+      name: "Es Jeruk Nipis",
+      desc: lang === "ID" ? "Perasan jeruk nipis segar." : "Lime ice.",
+      price: "Rp 10.000",
+      image:
+        "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 24,
+      category: "drink",
+      name: "Es Campur Bandung",
+      desc:
+        lang === "ID"
+          ? "Es campur buah dan agar."
+          : "Bandung mixed ice dessert.",
+      price: "Rp 18.000",
+      image:
+        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 25,
+      category: "drink",
+      name: "Jus Alpukat",
+      desc: lang === "ID" ? "Jus alpukat susu cokelat." : "Avocado juice.",
+      price: "Rp 16.000",
+      image:
+        "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 26,
+      category: "drink",
+      name: "Es Teler Special",
+      desc:
+        lang === "ID"
+          ? "Es teler buah nangka dan alpukat."
+          : "Special teler ice.",
+      price: "Rp 19.000",
+      image:
+        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 27,
+      category: "drink",
+      name: "Kopi Susu Gula Aren",
+      desc:
+        lang === "ID"
+          ? "Kopi susu gula aren legit."
+          : "Palm sugar milk coffee.",
+      price: "Rp 20.000",
+      image:
+        "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 28,
+      category: "drink",
+      name: "Teh Tawar Hangat",
+      desc: lang === "ID" ? "Teh tawar hangat alami." : "Warm plain tea.",
+      price: "Rp 4.000",
+      image:
+        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 29,
+      category: "drink",
+      name: "Es Lemon Tea",
+      desc: lang === "ID" ? "Teh lemon dingin segar." : "Iced lemon tea.",
+      price: "Rp 12.000",
+      image:
+        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 30,
+      category: "drink",
+      name: "Jus Mangga",
+      desc: lang === "ID" ? "Jus buah mangga manis." : "Mango juice.",
+      price: "Rp 17.000",
+      image:
+        "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80",
+    },
+  ];
   const testimonials = [
     {
       name: "Sarah Amalia",
@@ -1295,16 +1300,13 @@ export default function LandingPage({ onNavigateToLogin }) {
             </div>
           </div>
 
-          {/* TOMBOL TAUTAN LANGSUNG KE MENU PESANAN */}
+          {/* TOMBOL TAUTAN LANGSUNG KE PESAN MENU */}
           <div className="pt-2">
             <button
-              onClick={() => {
-                window.location.href = "/pesanmenu";
-              }}
+              onClick={onNavigateToPesanMenu}
               className="w-full max-w-md mx-auto bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Klik Langsung Menuju Pesan menu</span>
-             
             </button>
           </div>
         </div>
