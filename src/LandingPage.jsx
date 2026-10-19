@@ -1144,20 +1144,20 @@ export default function LandingPage({
         </div>
       </section>
 
-      {/* TESTIMONIALS SECTION - DIUPDATE PERSIS GAMBAR */}
+      {/* TESTIMONIALS SECTION */}
       <section
         id="testimonials"
         className="py-12 px-4 md:px-12 max-w-7xl mx-auto space-y-6"
       >
         <div className="text-center space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#384959] tracking-tight">
             {currentT.testiSection.title}
           </h2>
 
           {/* BADGES */}
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <div className="bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
-              <span className="text-lg font-black text-slate-800">4.9</span>
+            <div className="bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-xs flex items-center gap-2">
+              <span className="text-lg font-black text-[#384959]">4.9</span>
               <div className="flex text-amber-400">
                 <Star className="w-3.5 h-3.5 fill-amber-400" />
                 <Star className="w-3.5 h-3.5 fill-amber-400" />
@@ -1170,7 +1170,7 @@ export default function LandingPage({
               </span>
             </div>
 
-            <div className="bg-[#728db2] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm flex items-center gap-1.5">
+            <div className="bg-[#6A89A7] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-xs flex items-center gap-1.5">
               <span>{currentT.testiSection.recommendText}</span>
             </div>
           </div>
@@ -1182,22 +1182,12 @@ export default function LandingPage({
 
         {/* TESTIMONIAL CARDS CONTAINER */}
         <div className="relative max-w-6xl mx-auto pt-4">
-          {/* FLOATING LEFT ARROW */}
-          <button className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 transition-all">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* FLOATING RIGHT ARROW */}
-          <button className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 transition-all">
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
           {/* CARDS GRID */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((testi, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100/60 flex flex-col justify-between space-y-6"
+                className="bg-white p-6 rounded-2xl shadow-xs border border-[#88BDF2]/50 flex flex-col justify-between space-y-6"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -1207,7 +1197,7 @@ export default function LandingPage({
                       <Star className="w-4 h-4 fill-amber-400" />
                       <Star className="w-4 h-4 fill-amber-400" />
                       <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="text-xs font-bold text-slate-800 ml-1">
+                      <span className="text-xs font-bold text-[#384959] ml-1">
                         {testi.rating}
                       </span>
                     </div>
@@ -1228,7 +1218,7 @@ export default function LandingPage({
                     className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-200"
                   />
                   <div>
-                    <h4 className="text-xs font-extrabold text-slate-800">
+                    <h4 className="text-xs font-extrabold text-[#384959]">
                       — {testi.name}
                     </h4>
                     <p className="text-[10px] text-slate-400 font-semibold">
@@ -1239,27 +1229,9 @@ export default function LandingPage({
               </div>
             ))}
           </div>
-
-          {/* BOTTOM CONTROLS & DUA TOMBOL SAMA PERSIS DENGAN GAMBAR */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-8">
-            {/* DOT INDIKATOR SLIDER */}
-            <div className="flex items-center gap-1.5">
-              <span className="w-6 h-2 bg-slate-500 rounded-full"></span>
-              <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-              <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-            </div>
-
-            {/* BOTTOM CONTROLS (HANYA MENYISAKAN DOT INDIKATOR) */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-8">
-              {/* DOT INDIKATOR SLIDER */}
-              <div className="flex items-center gap-1.5">
-                <span className="w-6 h-2 bg-slate-500 rounded-full"></span>
-                <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-                <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-              </div>
-            </div>
-          </div>
         </div>
+   <br></br>
+
 
         {/* FORM RESERVASI MEJA DIUBAH MENJADI HANYA QR CODE & TOMBOL LANGSUNG */}
         <div
