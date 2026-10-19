@@ -522,6 +522,7 @@ export default function LandingPage({
         "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80",
     },
   ];
+  
   const testimonials = [
     {
       name: "Sarah Amalia",
