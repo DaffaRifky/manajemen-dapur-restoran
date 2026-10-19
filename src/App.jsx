@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
 import WaiterDashboard from "./WaiterDashboard";
@@ -378,6 +378,17 @@ export default function App() {
         "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
     },
   ]);
+
+  // Sinkronisasi otomatis URL browser berdasarkan state currentPage dengan format nama role masing-masing
+  useEffect(() => {
+    let path = "/landingpage";
+    if (currentPage === "pesanmenu") path = "/pesanmenu";
+    else if (currentPage === "login") path = "/login";
+    else if (currentPage === "waiter-dashboard") path = "/dashboardwaiter";
+    else if (currentPage === "chef-dashboard") path = "/dashboardkoki";
+
+    window.history.pushState({ page: currentPage }, "", path);
+  }, [currentPage]);
 
   const handleLoginSuccess = (role, username) => {
     if (username) setLoggedInUser(username);
