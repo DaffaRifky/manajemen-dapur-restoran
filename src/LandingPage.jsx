@@ -1011,12 +1011,6 @@ export default function LandingPage({
           ))}
         </div>
 
-        <div className="text-center mt-10">
-          <button className="inline-flex items-center gap-2 bg-[#2c335a] hover:bg-[#1f2544] text-white text-xs font-bold px-7 py-3 rounded-full shadow-md transition-all">
-            <span>{currentT.menuSection.viewAll}</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
       </section>
 
       {/* SYSTEM SECTION */}
