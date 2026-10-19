@@ -43,5 +43,8 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "noEmit": true,
   }
 }
