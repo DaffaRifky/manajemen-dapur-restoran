@@ -31,7 +31,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -46,7 +48,20 @@
   },
   "homepage": "https://github.com/DaffaRifky/manajemen-dapur-restoran#readme",
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.6.2",
+    "@storybook/addon-docs": "^10.6.2",
+    "@storybook/addon-onboarding": "^10.6.2",
+    "@storybook/addon-vitest": "^10.6.2",
+    "@storybook/react-vite": "^10.6.2",
     "@vitejs/plugin-react": "^6.1.2",
-    "vite": "^8.3.4"
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
+    "eslint-plugin-storybook": "^10.6.2",
+    "playwright": "latest",
+    "prop-types": "latest",
+    "storybook": "^10.6.2",
+    "vite": "^8.3.4",
+    "vitest": "latest"
   }
 }

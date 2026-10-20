@@ -174,7 +174,7 @@ export default function ChefDashboard({
       <aside className="w-64 bg-[#141b2d] text-slate-300 flex flex-col justify-between p-4 shrink-0">
         <div className="space-y-6">
           <div className="flex items-center gap-3 px-2 pt-2">
-            <div className="bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-900 p-2.5 rounded-xl shadow-md">
+            <div className="bg-linear-to-tr from-amber-500 to-amber-300 text-slate-900 p-2.5 rounded-xl shadow-md">
               <Utensils className="w-5 h-5 font-black" />
             </div>
             <div>
