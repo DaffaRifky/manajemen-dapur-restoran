@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import initialMenuList from "../data/menu.js";
 import {
   Utensils,
   Grid,
@@ -8,12 +9,14 @@ import {
   ChevronDown,
   Plus,
   Minus,
+  CheckCircle2, // <-- Tambahkan ikon ini di sini
 } from "lucide-react";
 
 export default function PesanMenu({
   onNavigateToHome,
   orders = [],
   setOrders,
+  menuList = initialMenuList,
 }) {
   // Tab Navigasi Dashboard Pelanggan ('ringkasan', 'pesan-menu', 'pesananku')
   const [activeNav, setActiveNav] = useState("ringkasan");
@@ -36,334 +39,6 @@ export default function PesanMenu({
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
-
-  // ==================== DAFTAR 40 MENU LENGKAP ====================
-  // (20 Makanan & 20 Minuman Persis Sesuai Gambar Referensi Anda)
-  const menu40Items = [
-    // 20 Makanan
-    {
-      id: 1,
-      name: "Nasi Goreng Special",
-      category: "Makanan",
-      price: 25000,
-      image:
-        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 2,
-      name: "Ayam Bakar Madu",
-      category: "Makanan",
-      price: 32000,
-      image:
-        "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 3,
-      name: "Mie Goreng Jawa",
-      category: "Makanan",
-      price: 23000,
-      image:
-        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 4,
-      name: "Sate Ayam Madura",
-      category: "Makanan",
-      price: 28000,
-      image:
-        "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 5,
-      name: "Bebek Goreng",
-      category: "Makanan",
-      price: 38000,
-      image:
-        "https://images.unsplash.com/photo-1514944298352-fff884140a3e?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 6,
-      name: "Soto Ayam Lamongan",
-      category: "Makanan",
-      price: 22000,
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 7,
-      name: "Bakso Sapi Urat",
-      category: "Makanan",
-      price: 20000,
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 8,
-      name: "Gado-Gado Jakarta",
-      category: "Makanan",
-      price: 18000,
-      image:
-        "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 9,
-      name: "Nasi Uduk Komplit",
-      category: "Makanan",
-      price: 24000,
-      image:
-        "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 10,
-      name: "Capcay Kuah Seafood",
-      category: "Makanan",
-      price: 27000,
-      image:
-        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 11,
-      name: "Nasi Padang Rendang",
-      category: "Makanan",
-      price: 30000,
-      image:
-        "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 12,
-      name: "Kwetiau Goreng",
-      category: "Makanan",
-      price: 23000,
-      image:
-        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 13,
-      name: "Ikan Gurame Bakar",
-      category: "Makanan",
-      price: 65000,
-      image:
-        "https://images.unsplash.com/photo-1514944298352-fff884140a3e?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 14,
-      name: "Nasi Campur Bali",
-      category: "Makanan",
-      price: 32000,
-      image:
-        "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 15,
-      name: "Ayam Penyet Sambal Ijo",
-      category: "Makanan",
-      price: 26000,
-      image:
-        "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 16,
-      name: "Soup Buntut Sapi",
-      category: "Makanan",
-      price: 45000,
-      image:
-        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 17,
-      name: "Mie Ayam Jamur",
-      category: "Makanan",
-      price: 19000,
-      image:
-        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 18,
-      name: "Nasi Goreng Seafood",
-      category: "Makanan",
-      price: 29000,
-      image:
-        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 19,
-      name: "Tahu Telor Asin",
-      category: "Makanan",
-      price: 21000,
-      image:
-        "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 20,
-      name: "Bubur Ayam Special",
-      category: "Makanan",
-      price: 17000,
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80",
-    },
-
-    // 20 Minuman
-    {
-      id: 21,
-      name: "Es Teh Manis",
-      category: "Minuman",
-      price: 6000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 22,
-      name: "Jus Jeruk Segar",
-      category: "Minuman",
-      price: 14000,
-      image:
-        "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 23,
-      name: "Es Jeruk Nipis",
-      category: "Minuman",
-      price: 10000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 24,
-      name: "Es Campur Bandung",
-      category: "Minuman",
-      price: 18000,
-      image:
-        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 25,
-      name: "Jus Alpukat",
-      category: "Minuman",
-      price: 16000,
-      image:
-        "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 26,
-      name: "Es Teler Special",
-      category: "Minuman",
-      price: 19000,
-      image:
-        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 27,
-      name: "Kopi Susu Gula Aren",
-      category: "Minuman",
-      price: 20000,
-      image:
-        "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 28,
-      name: "Teh Tawar Hangat",
-      category: "Minuman",
-      price: 4000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 29,
-      name: "Es Lemon Tea",
-      category: "Minuman",
-      price: 12000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 30,
-      name: "Jus Mangga",
-      category: "Minuman",
-      price: 17000,
-      image:
-        "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 31,
-      name: "Es Kelapa Muda",
-      category: "Minuman",
-      price: 15000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 32,
-      name: "Soda Gembira",
-      category: "Minuman",
-      price: 16000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 33,
-      name: "Milkshake Chocolate",
-      category: "Minuman",
-      price: 22000,
-      image:
-        "https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 34,
-      name: "Milkshake Strawberry",
-      category: "Minuman",
-      price: 22000,
-      image:
-        "https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 35,
-      name: "Wedang Jahe",
-      category: "Minuman",
-      price: 12000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 36,
-      name: "Bajigur Hangat",
-      category: "Minuman",
-      price: 13000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 37,
-      name: "Es Lychee Tea",
-      category: "Minuman",
-      price: 18000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 38,
-      name: "Jus Jambu Merah",
-      category: "Minuman",
-      price: 15000,
-      image:
-        "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 39,
-      name: "Mineral Water 600ml",
-      category: "Minuman",
-      price: 5000,
-      image:
-        "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      id: 40,
-      name: "Es Timun Suri",
-      category: "Minuman",
-      price: 14000,
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
-    },
-  ];
 
   // KERANJANG AWAL KOSONG (Hanya terisi jika pengguna memilih dari pop-up Lihat Menu)
   const [cart, setCart] = useState([]);
@@ -396,57 +71,59 @@ export default function PesanMenu({
 
   const grandTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-const handleCheckout = (e) => {
-  e.preventDefault();
-  if (cart.length === 0) {
+  const handleCheckout = (e) => {
+    e.preventDefault();
+    if (cart.length === 0) {
+      alert(
+        lang === "ID"
+          ? "Keranjang masih kosong! Silakan pilih menu terlebih dahulu."
+          : "Cart is empty!",
+      );
+      return;
+    }
+
+    // Format Objek Pesanan yang 100% cocok dengan ChefDashboard.jsx
+    const newOrder = {
+      id: Date.now(),
+      table:
+        orderType === "dinein"
+          ? selectedTable.replace("Meja ", "")
+          : "Takeaway",
+      customer: customerName || "Pelanggan",
+      phone: customerPhone || "-",
+      type: orderType === "dinein" ? "Dine In" : "Takeaway",
+      items: cart.map((item) => ({
+        name: item.name,
+        qty: item.qty,
+        price: item.price,
+        note: orderNote || "-",
+      })),
+      total: grandTotal,
+      payment: paymentMethod,
+      notes: orderNote || "-", // Sesuai dengan pembacaan 'ord.notes' di ChefDashboard
+      status: "Diproses Dapur", // STATUS INI WAJIB SAMA AGAR MASUK KE ANTRIAN DAPUR KOKI
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      elapsedMinutes: 0,
+    };
+
+    // Mengirim pesanan ke state global App.jsx
+    setOrders((prevOrders) => [newOrder, ...prevOrders]);
+
     alert(
       lang === "ID"
-        ? "Keranjang masih kosong! Silakan pilih menu terlebih dahulu."
-        : "Cart is empty!",
+        ? "Pesanan berhasil dikirim ke Dapur Koki!"
+        : "Order sent to Kitchen!",
     );
-    return;
-  }
 
-  // Format Objek Pesanan yang 100% cocok dengan ChefDashboard.jsx
-  const newOrder = {
-    id: Date.now(),
-    table:
-      orderType === "dinein" ? selectedTable.replace("Meja ", "") : "Takeaway",
-    customer: customerName || "Pelanggan",
-    phone: customerPhone || "-",
-    type: orderType === "dinein" ? "Dine In" : "Takeaway",
-    items: cart.map((item) => ({
-      name: item.name,
-      qty: item.qty,
-      price: item.price,
-      note: orderNote || "-",
-    })),
-    total: grandTotal,
-    payment: paymentMethod,
-    notes: orderNote || "-", // Sesuai dengan pembacaan 'ord.notes' di ChefDashboard
-    status: "Diproses Dapur", // STATUS INI WAJIB SAMA AGAR MASUK KE ANTRIAN DAPUR KOKI
-    time: new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-    elapsedMinutes: 0,
+    // Mengosongkan keranjang & beralih ke tab Pesanan Saya
+    setCart([]);
+    setActiveNav("pesananku");
   };
 
-  // Mengirim pesanan ke state global App.jsx
-  setOrders((prevOrders) => [newOrder, ...prevOrders]);
-
-  alert(
-    lang === "ID"
-      ? "Pesanan berhasil dikirim ke Dapur Koki!"
-      : "Order sent to Kitchen!",
-  );
-
-  // Mengosongkan keranjang & beralih ke tab Pesanan Saya
-  setCart([]);
-  setActiveNav("pesananku");
-};
-
-  const filteredMenu = menu40Items.filter((item) => {
+  const filteredMenu = menuList.filter((item) => {
     const matchesCat =
       activeCategory === "Semua" || item.category === activeCategory;
     const matchesSearch = item.name
@@ -932,51 +609,252 @@ const handleCheckout = (e) => {
             </div>
           )}
 
-          {/* ==================== TAB 3: PESANAN SAYA ==================== */}
+          {/* ==================== TAB 3: PESANAN SAYA (LENGKAP, BILINGUAL & CENTANG HIJAU) ==================== */}
           {activeNav === "pesananku" && (
-            <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-4 animate-in fade-in duration-200">
-              {orders.length === 0 ? (
-                <div className="py-16 text-slate-400 text-xs font-medium border border-dashed border-slate-200 rounded-2xl">
-                  Belum ada pesanan aktif.
+            <div className="space-y-6 animate-in fade-in duration-200">
+              <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+                {/* Header Bagian */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-black">
+                      <Clock className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-black text-slate-900">
+                        {lang === "ID"
+                          ? "Riwayat & Status Pesanan Anda"
+                          : "Your Order History & Status"}
+                      </h3>
+                      <p className="text-xs text-slate-400 font-medium">
+                        {lang === "ID"
+                          ? "Pantau status masakan Anda secara real-time"
+                          : "Track your meal status in real-time"}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="bg-slate-100 text-slate-700 px-3.5 py-1.5 rounded-full text-xs font-black">
+                    {(orders || []).length}{" "}
+                    {lang === "ID" ? "Pesanan" : "Orders"}
+                  </span>
                 </div>
-              ) : (
-                <div className="space-y-4 text-left">
-                  <h3 className="text-sm font-black text-slate-900">
-                    Riwayat Pesanan Anda
-                  </h3>
-                  {orders.map((ord) => (
-                    <div
-                      key={ord.id}
-                      className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-3"
+
+                {!orders || orders.length === 0 ? (
+                  <div className="py-16 text-center border border-dashed border-slate-200 rounded-2xl bg-slate-50/50 space-y-2">
+                    <p className="text-3xl">🍽️</p>
+                    <p className="text-xs font-bold text-slate-500">
+                      {lang === "ID"
+                        ? "Belum ada pesanan yang dibuat."
+                        : "No orders created yet."}
+                    </p>
+                    <button
+                      onClick={() => setActiveNav("pesan-menu")}
+                      className="mt-2 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer shadow-xs"
                     >
-                      <div className="flex items-center justify-between text-xs font-bold text-slate-800 border-b pb-2">
-                        <span>
-                          {ord.type} ({ord.name})
-                        </span>
-                        <span className="text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-                          {ord.status}
-                        </span>
-                      </div>
-                      <div className="space-y-1 text-xs text-slate-600">
-                        {ord.items.map((it, idx) => (
-                          <div key={idx} className="flex justify-between">
-                            <span>
-                              {it.qty}x {it.name}
+                      {lang === "ID" ? "Pesan Sekarang" : "Order Now"}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-6">
+                    {orders.map((ord) => {
+                      if (!ord) return null;
+
+                      const isDineIn =
+                        ord.type === "Dine In" ||
+                        (ord.type && String(ord.type).includes("Scan QR"));
+                      const currentStatus = String(
+                        ord.status || "",
+                      ).toLowerCase();
+
+                      // Deteksi status tanpa pengaruh huruf besar/kecil
+                      const isReady =
+                        currentStatus.includes("siap") ||
+                        currentStatus.includes("ready");
+                      const isDone =
+                        currentStatus.includes("tersaji") ||
+                        currentStatus.includes("selesai") ||
+                        currentStatus.includes("served");
+
+                      // Teks Label Bahasa Dinamis
+                      let statusLabel =
+                        lang === "ID" ? "Diproses Dapur" : "Cooking";
+                      if (isReady) {
+                        statusLabel =
+                          lang === "ID" ? "Siap Diambil" : "Ready to Pick Up";
+                      } else if (isDone) {
+                        statusLabel =
+                          lang === "ID" ? "Sudah Tersaji" : "Served";
+                      }
+
+                      return (
+                        <div
+                          key={ord.id || Math.random()}
+                          className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-5 md:p-6 space-y-5 shadow-xs hover:border-slate-300 transition-all text-left"
+                        >
+                          {/* 1. Baris Atas: Metode Pemesanan, ID, & Badge Hijau Centang */}
+                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/60 pb-4">
+                            <div className="flex items-center gap-2.5">
+                              <span className="px-3 py-1 rounded-xl bg-[#121929] text-white font-extrabold text-[11px] shadow-xs flex items-center gap-1.5">
+                                {isDineIn
+                                  ? "📷 Scan QR (Dine In)"
+                                  : lang === "ID"
+                                    ? "🛵 Pesan dari Rumah"
+                                    : "🛵 Order from Home"}
+                              </span>
+                              <span className="text-xs font-bold text-slate-400">
+                                #{ord.id}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] font-bold text-slate-400">
+                                ⏰{" "}
+                                {ord.time ||
+                                  (lang === "ID" ? "Baru saja" : "Just now")}
+                              </span>
+
+                              {/* BADGE HIJAU CENTANG JIKA SIAP DIAMBIL */}
+                              <span
+                                className={`px-3.5 py-1 rounded-full text-xs font-black border flex items-center gap-1.5 transition-all ${
+                                  isReady
+                                    ? "bg-emerald-600 text-white border-emerald-600 shadow-xs animate-pulse"
+                                    : isDone
+                                      ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                                      : "bg-amber-100 text-amber-800 border-amber-200"
+                                }`}
+                              >
+                                {(isReady || isDone) && (
+                                  <CheckCircle2 className="w-4 h-4 text-white stroke-[3]" />
+                                )}
+                                <span>{statusLabel}</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* 2. Detail Pelanggan & Meja (Fully Translated) */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white p-4 rounded-xl border border-slate-200/60 text-xs">
+                            <div>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                {lang === "ID"
+                                  ? "Nama Pelanggan"
+                                  : "Customer Name"}
+                              </p>
+                              <p className="font-extrabold text-slate-900 mt-0.5 truncate">
+                                👤{" "}
+                                {ord.customer ||
+                                  ord.namaPelanggan ||
+                                  ord.name ||
+                                  "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                {lang === "ID"
+                                  ? "Nomor Meja / Lokasi"
+                                  : "Table / Location"}
+                              </p>
+                              <p className="font-extrabold text-amber-600 mt-0.5">
+                                🪑{" "}
+                                {ord.table ||
+                                  ord.nomorMeja ||
+                                  (isDineIn
+                                    ? lang === "ID"
+                                      ? "Meja"
+                                      : "Table"
+                                    : "Takeaway")}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                {lang === "ID"
+                                  ? "Nomor Telepon"
+                                  : "Phone Number"}
+                              </p>
+                              <p className="font-extrabold text-slate-800 mt-0.5">
+                                📞 {ord.phone || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                {lang === "ID"
+                                  ? "Metode Bayar"
+                                  : "Payment Method"}
+                              </p>
+                              <p className="font-extrabold text-slate-800 mt-0.5">
+                                💳 {ord.payment || "QRIS"}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* 3. Daftar Rincian Menu */}
+                          <div className="space-y-2">
+                            <p className="text-[11px] font-black text-slate-400 uppercase tracking-wider">
+                              {lang === "ID"
+                                ? "Detail Rincian Menu"
+                                : "Ordered Menu Details"}
+                            </p>
+                            <div className="bg-white rounded-xl border border-slate-200/60 divide-y divide-slate-100 text-xs">
+                              {(ord.items || []).map((it, idx) => (
+                                <div
+                                  key={idx}
+                                  className="p-3 flex items-center justify-between font-bold text-slate-800"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-6 h-6 rounded-md bg-slate-100 text-slate-900 flex items-center justify-center font-black text-[11px]">
+                                      {it.qty || 1}x
+                                    </span>
+                                    <span>
+                                      {it.name || it.namaMenu || "Menu"}
+                                    </span>
+                                  </div>
+                                  <span className="font-extrabold text-slate-900">
+                                    Rp{" "}
+                                    {(
+                                      (it.price || 0) * (it.qty || 1)
+                                    ).toLocaleString("id-ID")}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 4. Catatan Dapur */}
+                          {((ord.notes && ord.notes !== "-") ||
+                            (ord.note && ord.note !== "-")) && (
+                            <div className="bg-amber-50/80 border border-amber-200/80 p-3 rounded-xl text-xs font-bold text-amber-900 flex items-start gap-2">
+                              <span className="text-base leading-none">📌</span>
+                              <div>
+                                <span className="font-black">
+                                  {lang === "ID"
+                                    ? "Catatan Dapur: "
+                                    : "Kitchen Note: "}
+                                </span>
+                                <span className="font-medium text-amber-800">
+                                  {ord.notes || ord.note}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 5. Total Pembayaran */}
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-200/60 font-black">
+                            <span className="text-xs text-slate-600">
+                              {lang === "ID"
+                                ? "Total Pembayaran"
+                                : "Total Payment"}
                             </span>
-                            <span>
-                              Rp {(it.price * it.qty).toLocaleString("id-ID")}
+                            <span className="text-base text-emerald-600">
+                              Rp {(ord.total || 0).toLocaleString("id-ID")}
                             </span>
                           </div>
-                        ))}
-                      </div>
-                      <div className="pt-2 border-t flex justify-between font-black text-xs text-slate-900">
-                        <span>Total ({ord.payment})</span>
-                        <span>Rp {ord.total.toLocaleString("id-ID")}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </main>

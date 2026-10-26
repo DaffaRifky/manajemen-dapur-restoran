@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import initialMenuList from "../data/menu.js";
+import DashboardSidebar from "../components/DashboardSidebar.jsx";
+import Toast from "../components/Toast.jsx";
 import {
   Utensils,
   LayoutDashboard,
   FilePlus,
-  LogOut,
   Flame,
   Bell,
   CheckSquare,
@@ -11,7 +13,6 @@ import {
   Settings,
   Trash2,
   Camera,
-  CheckCircle2,
   X,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ export default function WaiterDashboard({
   onLogout,
   username = "Waiter",
   orders = [],
+  menuList = initialMenuList,
   setOrders,
 }) {
   const [activeMenu, setActiveMenu] = useState("ringkasan");
@@ -177,332 +179,6 @@ export default function WaiterDashboard({
   const [isAllMenuModalOpen, setIsAllMenuModalOpen] = useState(false);
   const [modalCategory, setModalCategory] = useState("Semua");
 
-  const menuList = [
-    // --- 20 MAKANAN ---
-    {
-      id: 1,
-      name: "Nasi Goreng Special",
-      price: 25000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 2,
-      name: "Ayam Bakar Madu",
-      price: 32000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 3,
-      name: "Mie Goreng Jawa",
-      price: 23000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 4,
-      name: "Sate Ayam Madura",
-      price: 28000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 5,
-      name: "Bebek Goreng",
-      price: 38000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1514944298352-fff884140a3e?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 6,
-      name: "Soto Ayam Lamongan",
-      price: 22000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 7,
-      name: "Bakso Sapi Urat",
-      price: 20000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 8,
-      name: "Gado-Gado Jakarta",
-      price: 18000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 9,
-      name: "Nasi Uduk Komplit",
-      price: 24000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 10,
-      name: "Capcay Kuah Seafood",
-      price: 27000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 11,
-      name: "Nasi Padang Rendang",
-      price: 30000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 12,
-      name: "Kwetiau Goreng",
-      price: 23000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 13,
-      name: "Ikan Gurame Bakar",
-      price: 65000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 14,
-      name: "Nasi Campur Bali",
-      price: 32000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 15,
-      name: "Ayam Penyet Sambal Ijo",
-      price: 26000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 16,
-      name: "Soup Buntut Sapi",
-      price: 45000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 17,
-      name: "Mie Ayam Jamur",
-      price: 19000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 18,
-      name: "Nasi Goreng Seafood",
-      price: 29000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 19,
-      name: "Tahu Telor Asin",
-      price: 21000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 20,
-      name: "Bubur Ayam Special",
-      price: 17000,
-      category: "Makanan",
-      image:
-        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80",
-    },
-
-    // --- 20 MINUMAN ---
-    {
-      id: 21,
-      name: "Es Teh Manis",
-      price: 6000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 22,
-      name: "Jus Jeruk Segar",
-      price: 14000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 23,
-      name: "Es Jeruk Nipis",
-      price: 10000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 24,
-      name: "Es Campur Bandung",
-      price: 18000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 25,
-      name: "Jus Alpukat",
-      price: 16000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 26,
-      name: "Es Teler Special",
-      price: 19000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 27,
-      name: "Kopi Susu Gula Aren",
-      price: 20000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 28,
-      name: "Teh Tawar Hangat",
-      price: 4000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 29,
-      name: "Es Lemon Tea",
-      price: 12000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 30,
-      name: "Jus Mangga",
-      price: 17000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 31,
-      name: "Es Kelapa Muda",
-      price: 15000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 32,
-      name: "Soda Gembira",
-      price: 16000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 33,
-      name: "Milkshake Chocolate",
-      price: 22000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 34,
-      name: "Milkshake Strawberry",
-      price: 22000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 35,
-      name: "Wedang Jahe",
-      price: 12000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 36,
-      name: "Bajigur Hangat",
-      price: 13000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 37,
-      name: "Es Lychee Tea",
-      price: 18000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 38,
-      name: "Jus Jambu Merah",
-      price: 15000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 39,
-      name: "Mineral Water 600ml",
-      price: 5000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      id: 40,
-      name: "Es Timun Suri",
-      price: 14000,
-      category: "Minuman",
-      image:
-        "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=300&q=80",
-    },
-  ];
-
   const filteredMenu = menuList.filter((item) => {
     const matchesCategory =
       selectedCategory === "Semua" || item.category === selectedCategory;
@@ -613,69 +289,29 @@ export default function WaiterDashboard({
   return (
     <div className="h-screen w-full flex bg-[#f1f5f9] font-sans text-slate-800 select-none overflow-hidden relative">
       {/* NOTIFIKASI TOAST */}
-      {showToast && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-lg border border-emerald-500 animate-in fade-in slide-in-from-top-4 duration-300">
-          <CheckCircle2 className="w-5 h-5 text-white" />
-          <span className="text-xs font-bold tracking-wide">
-            {toastMessage}
-          </span>
-        </div>
-      )}
+      <Toast message={toastMessage} visible={showToast} />
 
-      {/* SIDEBAR KIRI */}
-      <aside className="w-64 bg-[#141b2d] text-slate-300 flex flex-col justify-between p-4 shrink-0 h-screen sticky top-0 z-40">
-        <div className="space-y-6">
-          <div className="flex items-center gap-3 px-2 pt-2">
-            <div className="bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-900 p-2.5 rounded-xl shadow-md">
-              <Utensils className="w-5 h-5 font-black" />
-            </div>
-            <div>
-              <h2 className="text-white text-sm font-bold tracking-tight">
-                {username}
-              </h2>
-              <p className="text-[11px] font-medium text-amber-400">
-                {dict.roleTitle}
-              </p>
-            </div>
-          </div>
-
-          <nav className="space-y-1.5 pt-2">
-            <button
-              onClick={() => setActiveMenu("ringkasan")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === "ringkasan"
-                  ? "bg-[#252f48] text-white shadow-sm border-l-4 border-amber-500"
-                  : "hover:bg-slate-800/60 text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>{dict.navRingkasan}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveMenu("pesanan-baru")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeMenu === "pesanan-baru"
-                  ? "bg-[#252f48] text-white shadow-sm border-l-4 border-amber-500"
-                  : "hover:bg-slate-800/60 text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <FilePlus className="w-4 h-4" />
-              <span>{dict.navPesananBaru}</span>
-            </button>
-          </nav>
-        </div>
-
-        <div className="pt-4 border-t border-slate-800">
-          <button
-            onClick={onLogout}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>{dict.logout}</span>
-          </button>
-        </div>
-      </aside>
+      <DashboardSidebar
+        username={username}
+        roleTitle={dict.roleTitle}
+        logoutLabel={dict.logout}
+        onLogout={onLogout}
+        activeItem={activeMenu}
+        onItemSelect={setActiveMenu}
+        className="h-screen sticky top-0 z-40"
+        items={[
+          {
+            id: "ringkasan",
+            label: dict.navRingkasan,
+            icon: LayoutDashboard,
+          },
+          {
+            id: "pesanan-baru",
+            label: dict.navPesananBaru,
+            icon: FilePlus,
+          },
+        ]}
+      />
 
       {/* KONTEN KANAN */}
       <main className="flex-1 flex flex-col h-screen overflow-y-auto">

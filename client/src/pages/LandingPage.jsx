@@ -66,113 +66,113 @@ export default function LandingPage({
       brandTitle: "Sistem Manajemen Dapur Restoran",
       nav: {
         home: "Home",
-        about: "About Us",
-        menu: "Menu Favorit",
-        system: "Layanan Sistem",
-        testi: "Testimoni",
-        reserve: "Reservasi Meja",
+        about: "Tentang",
+        menu: "Fitur Demo",
+        system: "Alur Sistem",
+        testi: "Manfaat",
+        reserve: "Coba Sistem",
         login: "Login",
       },
       hero: {
-        badge: "NIKMATI PENGALAMAN KULINER TERBAIK & HIGIENIS",
-        title1: "Nikmati Makanan Lezat", // ✅ SUDAH BAHASA INDONESIA
-        title2: "Dalam", // ✅ SUDAH BAHASA INDONESIA
-        title3: "Hidup Sehat Anda", // ✅ SUDAH BAHASA INDONESIA
-        desc: "Rasakan kecepatan penyajian makanan langsung dari koki profesional ke meja Anda berkat sistem otomatisasi dapur modern berteknologi mutakhir.",
-        btnMenu: "Lihat Menu Kami",
-        btnReserve: "Pesan Meja Sekarang",
-        hours: "BUKA SETIAP HARI:",
-        location: "LOKASI RESTO:",
-        openMaps: "Buka di Maps",
+        badge: "SOLUSI MANAJEMEN RESTORAN MODERN",
+        title1: "Kelola Pesanan",
+        title2: "Dapur & Laporan",
+        title3: "dengan Lebih Mudah",
+        desc: "SIMADAR membantu tim restoran memantau pesanan, mengatur proses dapur, dan mengelola transaksi secara real-time dalam satu platform yang terintegrasi.",
+        btnMenu: "Lihat Fitur Utama",
+        btnReserve: "Masuk ke Dashboard",
+        hours: "WORKFLOW RESTORAN:",
+        location: "TARGET PENGGUNA:",
+        openMaps: "Lihat Demo",
       },
       about: {
         badge: "TENTANG SIMADAR",
-        title: "Kenyamanan & Kelezatan Berpadu dengan Teknologi Modern",
-        desc: "Kami berkomitmen menyajikan hidangan berkualitas tinggi dengan bahan-bahan segar pilihan. Didukung sistem dapur otomatis terpadu, setiap pesanan diproses secara cepat, akurat, dan higienis langsung dari meja Anda.",
-        feat1Title: "Dapur Higienis & Cepat",
-        feat1Desc: "Antrean otomatis FIFO terintegrasi.",
-        feat2Title: "Koki Profesional",
-        feat2Desc: "Sajikan cita rasa bintang lima.",
+        title: "Dari pesanan meja hingga laporan keuangan, semua berjalan terintegrasi.",
+        desc: "Platform ini dirancang untuk membantu pemilik restoran, waiter, dan koki mengelola aktivitas harian secara cepat, akurat, dan terdokumentasi. Fokus utama kami adalah kelancaran operasional dan transparansi data restoran.",
+        feat1Title: "Order Flow Real-Time",
+        feat1Desc: "Pesanan dari waiter hingga dapur langsung terpantau tanpa saling terlewat.",
+        feat2Title: "Monitoring & Laporan",
+        feat2Desc: "Data penjualan dan status order dapat dipantau untuk evaluasi operasional.",
       },
       menuSection: {
-        badge: "HIDANGAN POPULER",
-        title: "Menu Favorit Pilihan Tamu",
-        desc: "Pilih kategori di bawah untuk menampilkan 10 makanan lezat dan 10 minuman segar.",
-        tabAll: "Semua Menu (20)",
-        tabMain: "Makanan (10)",
-        tabDrink: "Minuman (10)",
+        badge: "FITUR DEMO",
+        title: "Demo menu digital yang terhubung ke sistem restoran",
+        desc: "Menu di bawah menunjukkan bagaimana pelanggan melihat item yang tersedia, sementara tim restoran tetap mengelola pesanan secara terstruktur.",
+        tabAll: "Semua Menu",
+        tabMain: "Makanan",
+        tabDrink: "Minuman",
         priceLabel: "HARGA",
       },
       systemSection: {
-        badge: "TEKNOLOGI RESTOMODERN",
-        title: "Bagaimana Sistem Kami Bekerja untuk Anda?",
-        desc: "Transparansi dan kecepatan dari pemesanan hingga makanan disajikan hangat ke meja tamu secara real-time.",
+        badge: "ALUR KERJA SISTEM",
+        title: "Bagaimana SIMADAR membantu operasional restoran?",
+        desc: "Mulai dari pesanan masuk, pengolahan dapur, hingga eksekusi laporan dan monitoring status, seluruh proses dapat dikelola dalam satu ekosistem.",
         step1Tag: "LANGKAH 01",
-        step1Title: "Pesan Mandiri via QR / Tablet Waiter",
+        step1Title: "Pemesanan & Input Order",
         step1Desc:
-          'Tamu memindai "QR Code" di meja atau dibantu waiter untuk memilih menu secara digital. Pesanan terverifikasi langsung terhubung ke dapur.',
+          'Waiter mencatat pesanan pelanggan, menambahkan catatan khusus, dan mengirimkan permintaan ke dapur secara otomatis.',
         step1List: [
-          "Tanpa antre lama di meja kasir",
-          "Pencatatan nomor meja otomatis",
-          "Kustomisasi catatan pesanan/alergi",
+          "Input order dari meja atau perangkat waiter",
+          "Catatan khusus untuk dapur dan pelanggan",
+          "Status pesanan terpusat dan terstruktur",
         ],
-        step2Badge: "OTAK PENGOLAHAN",
+        step2Badge: "OTAK OPERASIONAL",
         step2Tag: "LANGKAH 02",
-        step2Title: "Dapur Otomatis KDS & Antrean FIFO",
+        step2Title: "Proses Dapur & Antrean Pesanan",
         step2Desc:
-          'Layar dapur ("Kitchen Display System") menerima pesanan seketika dengan urutan FIFO ("First-In, First-Out") untuk menjaga kecepatan masak koki.',
+          'Koki menerima daftar pesanan dalam antrean yang jelas, memprioritaskan pekerjaan, dan memperbarui status siap saji secara real-time.',
         step2List: [
-          "Bebas risiko kertas nota hilang/basah",
-          "Timer estimasi waktu penyajian koki",
-          'Status pesanan ("Cooking / Ready")',
+          "Antrean order yang mudah dibaca",
+          "Status memasak dan siap diambil terpantau",
+          "Koordinasi lebih cepat antar waiter dan koki",
         ],
         step3Tag: "LANGKAH 03",
-        step3Title: "Penyajian Cepat & Pembayaran Mudah",
+        step3Title: "Monitoring, Pembayaran & Laporan",
         step3Desc:
-          "Sistem memberi notifikasi ke waiter saat masakan matang untuk disajikan hangat, dilanjutkan pembayaran tunai, QRIS, atau kartu di kasir.",
+          "Sistem mendukung pengawasan transaksi dan laporan operasional untuk membantu keputusan bisnis yang lebih cepat dan akurat.",
         step3List: [
-          "Makanan disajikan saat kondisi terbaik",
-          "Dukungan pembayaran QRIS / Cash / Card",
-          "Cetak struk fisik atau e-receipt digital",
+          "Data pesanan terorganisasi dengan baik",
+          "Pemantauan aktivitas restoran secara real-time",
+          "Laporan penjualan dan performa operasional",
         ],
-        stat1Title: "10-15 Mnt",
-        stat1Desc: "Rata-rata Penyajian Dapur",
-        stat2Title: "100% Akurat",
-        stat2Desc: "Bebas Salah Catat Pesanan",
-        stat3Title: "Real-Time",
-        stat3Desc: "Sinkronisasi Dapur & Kasir",
+        stat1Title: "1 Platform",
+        stat1Desc: "Semua proses terintegrasi",
+        stat2Title: "Real-Time",
+        stat2Desc: "Status order terus diperbarui",
+        stat3Title: "Data",
+        stat3Desc: "Bisa dipakai untuk evaluasi dan laporan",
       },
       testiSection: {
-        badge: "TESTIMONI TAMU",
-        title: "Apa Kata Mereka yang Pernah Berkunjung?",
-        ratingText: "Berdasarkan 1,280+ Ulasan",
-        recommendText: "👍 98% Tamu Merekomendasikan SIMADAR",
+        badge: "NILAI PRODUK",
+        title: "Apa yang ditawarkan sistem ini untuk restoran?",
+        ratingText: "Fokus pada efisiensi operasional",
+        recommendText: "✅ Mengurangi kesalahan input & tunggakan order",
         subtitle:
-          "Menampilkan 3 ulasan pilihan terbaru dari total 1,280+ ulasan tamu.",
-        writeReview: "Tulis Ulasan1",
+          "Dirancang untuk membantu tim restoran memproses pemesanan, sinkronisasi dapur, dan evaluasi penjualan dengan lebih rapi.",
+        writeReview: "Lihat demo",
       },
       reservationSection: {
-        title: "Pemesanan Menu QR",
-        desc: "Amankan meja terbaik Anda dan nikmati pemesanan cepat melalui QR code.",
-        labelName: "NAMA LENGKAP TAMU",
-        placeholderName: "Masukkan nama lengkap",
-        labelPhone: "NOMOR TELEPON / WHATSAPP",
-        labelGuests: "JUMLAH TAMU",
-        labelTable: "NOMOR MEJA",
+        title: "Coba alur kerja sistem restoran",
+        desc: "Jelajahi alur pemesanan dan pengelolaan dapur yang ada dalam project ini.",
+        labelName: "NAMA PELANGGAN",
+        placeholderName: "Masukkan nama pelanggan",
+        labelPhone: "NOMOR TELEPON",
+        labelGuests: "JUMLAH PESANAN",
+        labelTable: "MEJA / AREA",
         placeholderTable: "Contoh: Meja 05",
-        btnSubmit: "Konfirmasi Reservasi Sekarang",
-        qrText: "Scan barcode untuk memesan makanan",
-        qrSubtext: "",
+        btnSubmit: "Masuk ke Dashboard",
+        qrText: "Gunakan menu demo untuk melihat alur order",
+        qrSubtext: "Tombol di bawah membawa Anda ke halaman menu digital dan sistem login.",
       },
       footer: {
         brandDesc:
-          "Sistem Manajemen Dapur Restoran modern berstandar tinggi. Mendukung dwibahasa (ID/EN).",
-        col1Header: "NAVIGASI TAMU",
-        col2Header: "JAM OPERASIONAL",
-        col2Days: "Senin - Minggu",
-        col2Hours: "10.00 AM - 22.00 PM WIB",
-        col2Status: "Layanan Dapur Real-Time aktif",
-        col3Header: "TIM PENGEMBANG PBL",
+          "SIMADAR adalah platform manajemen dapur restoran yang dirancang untuk mempermudah pengelolaan pesanan, dapur, dan laporan operasional.",
+        col1Header: "NAVIGASI",
+        col2Header: "FLOW SISTEM",
+        col2Days: "Order → Dapur → Pelayanan",
+        col2Hours: "Monitoring real-time",
+        col2Status: "Laporan operasional terintegrasi",
+        col3Header: "TIM PENGEMBANG",
         col3Owner: "Athallah S.Kom. (Owner)",
         copyright:
           "© 2026 SISTEM MANAJEMEN DAPUR RESTORAN / SIMADAR. All rights reserved.",
@@ -180,120 +180,117 @@ export default function LandingPage({
     },
     EN: {
       nav: {
-        brandTitle: "Restaurant Kitchen Management System", // <-- Ditambahkan
+        brandTitle: "Restaurant Kitchen Management System",
         home: "Home",
-        about: "About Us",
-        menu: "Favorite Menu",
-        system: "System Services",
-        testi: "Testimonials",
-        reserve: "Table Reservation",
+        about: "About",
+        menu: "Demo Features",
+        system: "Workflow",
+        testi: "Benefits",
+        reserve: "Try System",
         login: "Login",
       },
       hero: {
-        badge: "ENJOY THE BEST & HYGIENIC CULINARY EXPERIENCE",
-        title1: "Enjoy Delicious Food",
-        title2: "In Your",
-        title3: "Healthy Life",
-        desc: "Experience fast serving speeds directly from professional chefs to your table, powered by cutting-edge kitchen automation systems.",
-        btnMenu: "View Our Menu",
-        btnReserve: "Book Table Now",
-        hours: "OPEN EVERY DAY:",
-        location: "RESTAURANT LOCATION:",
-        openMaps: "Open in Maps",
+        badge: "MODERN RESTAURANT MANAGEMENT SOLUTION",
+        title1: "Manage Orders",
+        title2: "Kitchen & Reports",
+        title3: "with Ease",
+        desc: "SIMADAR helps restaurant teams monitor orders, coordinate kitchen operations, and manage transactions in a single real-time system.",
+        btnMenu: "See Core Features",
+        btnReserve: "Open Dashboard",
+        hours: "RESTAURANT WORKFLOW:",
+        location: "TARGET USERS:",
+        openMaps: "View Demo",
       },
       about: {
         badge: "ABOUT SIMADAR",
-        title: "Comfort & Taste Combined with Modern Technology",
-        desc: "We are committed to serving high-quality dishes using selected fresh ingredients. Backed by an integrated kitchen automation system, every order is processed quickly, accurately, and hygienically right from your table.",
-        feat1Title: "Hygienic & Fast Kitchen",
-        feat1Desc: "Integrated FIFO automatic queue.",
-        feat2Title: "Professional Chef",
-        feat2Desc: "Five-star flavor presentation.",
+        title: "From table orders to financial reports, everything is connected.",
+        desc: "This platform is designed for restaurant owners, waiters, and chefs to manage daily operations accurately and efficiently. Its main focus is operational smoothness and transparent data visibility.",
+        feat1Title: "Real-Time Order Flow",
+        feat1Desc: "Orders from waiters to the kitchen are visible and synchronized without gaps.",
+        feat2Title: "Monitoring & Reporting",
+        feat2Desc: "Sales and order activity can be tracked for better operational evaluation.",
       },
       menuSection: {
-        badge: "POPULAR DISHES",
-        title: "Guest Favorite Menu",
-        desc: "Select a category below to view our delicious meals or refreshing signature beverages.",
+        badge: "DEMO FEATURES",
+        title: "Digital menu demo connected to the restaurant system",
+        desc: "The menu below shows how customers view available items while the restaurant team keeps order management structured and organized.",
         tabAll: "All Menu",
-        tabMain: "Main Course (6)",
-        tabDrink: "Fresh Drinks (6)",
-
+        tabMain: "Food",
+        tabDrink: "Drinks",
         priceLabel: "PRICE",
-        viewAll: "Explore Complete Restaurant Menu",
       },
       systemSection: {
-        badge: "RESTOMODERN TECHNOLOGY",
-        title: "How Our System Works For You?",
-        desc: "Transparency and speed from order placement to hot food served at your table in real-time.",
+        badge: "WORKFLOW OVERVIEW",
+        title: "How SIMADAR supports restaurant operations",
+        desc: "From incoming orders to kitchen processing and operational reporting, each step is managed in one connected system.",
         step1Tag: "STEP 01",
-        step1Title: "Self-Order via QR / Waiter Tablet",
+        step1Title: "Order Entry & Request Handling",
         step1Desc:
-          "Guests scan the QR code on the table or get assisted by waiters to pick items digitally. Verified orders connect instantly to the kitchen.",
+          'Waiters record customer orders, add kitchen notes, and send requests to the kitchen automatically.',
         step1List: [
-          "No long queues at the cashier counter",
-          "Automated table number logging",
-          "Customizable order notes & allergy alerts",
+          "Order entry from tables or waiter devices",
+          "Kitchen notes and customer-specific requests",
+          "Centralized, structured order status",
         ],
-        step2Badge: "PROCESSING BRAIN",
+        step2Badge: "OPERATIONAL BRAIN",
         step2Tag: "STEP 02",
-        step2Title: "Automated KDS & FIFO Queue",
+        step2Title: "Kitchen Processing & Order Queue",
         step2Desc:
-          "The Kitchen Display System receives orders instantly using FIFO (First-In, First-Out) sequence to maintain cooking pace.",
+          'Chefs receive a clear queue, prioritize work, and update readiness status in real time.',
         step2List: [
-          "Zero risk of lost or wet paper tickets",
-          "Chef preparation timer estimates",
-          "Real-time order status (Cooking / Ready)",
+          "Readable order queue",
+          "Track cooking and ready-to-serve state",
+          "Faster coordination between kitchen and waiters",
         ],
         step3Tag: "STEP 03",
-        step3Title: "Fast Serving & Easy Payment",
+        step3Title: "Monitoring, Payment & Reporting",
         step3Desc:
-          "System notifies waiters when food is ready so it is served warm, followed by easy payment via cash, QRIS, or card.",
+          "The system supports business oversight and operational reporting for faster, more accurate decisions.",
         step3List: [
-          "Food served in peak fresh condition",
-          "Seamless QRIS / Cash / Card support",
-          "Physical paper receipt or digital e-receipt",
+          "Well-organized transaction data",
+          "Real-time restaurant activity monitoring",
+          "Sales and operational reporting support",
         ],
-        stat1Title: "10-15 Mins",
-        stat1Desc: "Average Kitchen Prep Time",
-        stat2Title: "100% Accurate",
-        stat2Desc: "Zero Order Recording Errors",
-        stat3Title: "Real-Time",
-        stat3Desc: "Kitchen & Cashier Sync",
+        stat1Title: "1 Platform",
+        stat1Desc: "All workflows connected",
+        stat2Title: "Real-Time",
+        stat2Desc: "Order status is continuously updated",
+        stat3Title: "Data",
+        stat3Desc: "Useful for evaluation and reporting",
       },
       testiSection: {
-        badge: "GUEST TESTIMONIALS",
-        title: "What Do Our Visitors Say?",
-        ratingText: "Based on 1,280+ Reviews",
-        recommendText: "👍 98% of Guests Recommend SIMADAR",
+        badge: "PRODUCT VALUE",
+        title: "What this system offers restaurant teams",
+        ratingText: "Focused on operational efficiency",
+        recommendText: "✅ Reduces input errors and missed order flow",
         subtitle:
-          "Showing 3 featured recent reviews from a total of 1,280+ guest reviews.",
-        writeReview: "Write Review",
+          "Designed to help restaurant teams process orders, synchronize the kitchen, and manage sales data more cleanly.",
+        writeReview: "View demo",
       },
       reservationSection: {
-        title: "Table Reservation & QR Ordering",
-        desc: "Reserve your best table and enjoy instant digital ordering via QR code.",
-        labelName: "GUEST FULL NAME",
-        placeholderName: "Enter full name",
-        labelPhone: "PHONE NUMBER / WHATSAPP",
-        labelGuests: "NUMBER OF GUESTS",
-        labelTable: "TABLE NUMBER",
+        title: "Try the restaurant workflow demo",
+        desc: "Explore the order and kitchen management flow included in this project.",
+        labelName: "CUSTOMER NAME",
+        placeholderName: "Enter customer name",
+        labelPhone: "PHONE NUMBER",
+        labelGuests: "ORDER COUNT",
+        labelTable: "TABLE / AREA",
         placeholderTable: "Example: Table 05",
-        btnSubmit: "Confirm Reservation Now",
-        qrText: "Scan barcode to order food",
-        qrSubtext:
-          "Type or scan the QR code above to navigate directly to the digital menu.",
+        btnSubmit: "Open Dashboard",
+        qrText: "Use the demo menu to explore the ordering flow",
+        qrSubtext: "The button below opens the digital menu and login screen for the system.",
       },
       footer: {
         brandDesc:
-          "High-standard modern Restaurant Kitchen Management System. Supports dual-language (ID/EN).",
-        col1Header: "GUEST NAVIGATION",
-        col2Header: "OPERATING HOURS",
-        col2Days: "Monday - Sunday",
-        col2Hours: "10.00 AM - 22.00 PM WIB",
-        col2Status: "Real-Time Kitchen Service Active",
-        col3Header: "PBL DEVELOPMENT TEAM",
+          "SIMADAR is a restaurant management platform designed to streamline order handling, kitchen coordination, and operational reporting.",
+        col1Header: "NAVIGATION",
+        col2Header: "SYSTEM FLOW",
+        col2Days: "Order → Kitchen → Service",
+        col2Hours: "Real-time monitoring",
+        col2Status: "Integrated operational reporting",
+        col3Header: "DEVELOPMENT TEAM",
         col3Owner: "Athallah S.Kom. (Owner)",
-        copyright: "© 2026 SIMADAR / Si Pekas Polibatam. All rights reserved.",
+        copyright: "© 2026 RESTAURANT KITCHEN MANAGEMENT SYSTEM / SIMADAR. All rights reserved.",
       },
     },
   };
@@ -522,7 +519,6 @@ export default function LandingPage({
         "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80",
     },
   ];
-  
   const testimonials = [
     {
       name: "Sarah Amalia",
@@ -553,7 +549,7 @@ export default function LandingPage({
     },
     {
       name: "Dian Sastrowardoyo",
-      role: lang === "ID" ? "Akademisi • Meja 12" : "Academician • Table 12",
+      role: lang === "ID" ? "Pengguna Sistem • Meja 12" : "System User • Table 12",
       time: lang === "ID" ? "2 minggu yang lalu" : "2 weeks ago",
       rating: "4.8",
       comment:
@@ -571,9 +567,9 @@ export default function LandingPage({
       : menuItems.filter((item) => item.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#b9d7fc] text-slate-800 font-sans selection:bg-blue-300">
+    <div className="min-h-screen bg-[#F0E8C2] text-slate-800 font-sans selection:bg-blue-300">
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 bg-[#b9d7fc]/90 backdrop-blur-md border-b border-blue-200/60 px-4 md:px-12 py-3 transition-all">
+      <nav className="sticky top-0 z-50 bg-[#F0E8C2]/90 backdrop-blur-md border-b border-blue-200/60 px-4 md:px-12 py-3 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-slate-800 text-white p-2.5 rounded-2xl shadow-md">
@@ -726,10 +722,10 @@ export default function LandingPage({
               <span>{currentT.hero.badge}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.05] tracking-tight">
               {currentT.hero.title1} <br />
-              {currentT.hero.title2}{" "}
-              <span className="text-slate-500">{currentT.hero.title3}</span>
+              <span className="text-slate-600">{currentT.hero.title2}</span>
+              <span className="block text-slate-500">{currentT.hero.title3}</span>
             </h1>
 
             <p className="text-slate-600 text-sm md:text-base leading-relaxed max-w-xl font-medium">
@@ -738,34 +734,34 @@ export default function LandingPage({
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="#menu"
+                href="#system"
                 className="flex items-center gap-2 bg-[#2c335a] hover:bg-[#1f2544] text-white px-6 py-3 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-all"
               >
                 <span>{currentT.hero.btnMenu}</span>
                 <ChevronRight className="w-4 h-4" />
               </a>
-              <a
-                href="#reservation"
+              <button
+                onClick={onNavigateToLogin}
                 className="flex items-center gap-2 bg-[#7a95ba] hover:bg-[#6882a7] text-white px-6 py-3 rounded-full text-sm font-bold shadow-sm transition-all"
               >
                 <span>{currentT.hero.btnReserve}</span>
-              </a>
+              </button>
             </div>
           </div>
 
           <div className="lg:col-span-5 flex justify-center relative">
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-2 bg-white/40 shadow-2xl backdrop-blur-sm border border-white/60">
               <img
-                src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"
-                alt="Chef Special Pizza"
+                    src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80"
+                    alt="Restaurant dashboard concept"
                 className="w-full h-full object-cover rounded-full shadow-inner"
               />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-slate-200 shadow-xl flex items-center gap-2 whitespace-nowrap">
                 <span className="text-xs font-extrabold text-slate-800">
-                  Chef Special Pizza
+                      Live Order Panel
                 </span>
                 <span className="text-xs font-black text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">
-                  Rp 68.000
+                      24 Orders
                 </span>
               </div>
             </div>
@@ -780,10 +776,10 @@ export default function LandingPage({
             </div>
             <div>
               <p className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider">
-                RESERVASI / WHATSAPP:
+                SYSTEM ACCESS:
               </p>
               <p className="text-sm font-black text-slate-900">
-                +62 812-3456-7890
+                Login / Dashboard
               </p>
             </div>
           </div>
@@ -797,7 +793,7 @@ export default function LandingPage({
                 {currentT.hero.hours}
               </p>
               <p className="text-sm font-black text-slate-900">
-                10.00 - 22.00 WIB
+                Order → Kitchen → Service
               </p>
             </div>
           </div>
@@ -812,14 +808,17 @@ export default function LandingPage({
                   {currentT.hero.location}
                 </p>
                 <p className="text-xs font-black text-slate-900">
-                  Grand Delight Culinary District
+                  Restaurant Owner / Manager / Staff
                 </p>
                 <p className="text-[10px] font-semibold text-slate-700">
-                  Kawasan Kuliner Premium Blok A No. 12-15, Batam Center
+                  Monitoring & reporting system
                 </p>
               </div>
             </div>
-            <button className="hidden sm:flex items-center gap-1 bg-[#2c335a] hover:bg-[#1f2544] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition-all whitespace-nowrap shrink-0">
+            <button
+              onClick={onNavigateToLogin}
+              className="hidden sm:flex items-center gap-1 bg-[#2c335a] hover:bg-[#1f2544] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition-all whitespace-nowrap shrink-0"
+            >
               <span>{currentT.hero.openMaps}</span>
               <ExternalLink className="w-3 h-3" />
             </button>
@@ -833,15 +832,15 @@ export default function LandingPage({
           <div className="lg:col-span-6 grid grid-cols-2 gap-4">
             <div className="overflow-hidden rounded-2xl shadow-md h-64 border border-white/40">
               <img
-                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80"
-                alt="Resto Interior 1"
+                src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=600&q=80"
+                alt="Restaurant operations dashboard"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
             <div className="overflow-hidden rounded-2xl shadow-md h-64 border border-white/40 mt-6">
               <img
-                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80"
-                alt="Resto Interior 2"
+                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80"
+                alt="Kitchen coordination workflow"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
@@ -893,132 +892,6 @@ export default function LandingPage({
         </div>
       </section>
 
-      {/* MENU FAVORIT SECTION */}
-      <section id="menu" className="py-12 px-4 md:px-12 max-w-7xl mx-auto">
-        <div className="text-center space-y-2 mb-8">
-          <div className="inline-block bg-white/80 border border-blue-200 px-3.5 py-1 rounded-full text-[10px] font-bold text-slate-700 tracking-wider uppercase">
-            {currentT.menuSection.badge}
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-            {currentT.menuSection.title}
-          </h2>
-          <p className="text-slate-600 text-xs sm:text-sm">
-            {currentT.menuSection.desc}
-          </p>
-
-          <div className="flex justify-center gap-2 pt-4">
-            <button
-              onClick={() => setActiveTab("all")}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all shadow-sm ${
-                activeTab === "all"
-                  ? "bg-[#2c335a] text-white shadow-md"
-                  : "bg-white/80 text-slate-700 hover:bg-white"
-              }`}
-            >
-              {currentT.menuSection.tabAll}
-            </button>
-            <button
-              onClick={() => setActiveTab("main")}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all shadow-sm ${
-                activeTab === "main"
-                  ? "bg-[#2c335a] text-white shadow-md"
-                  : "bg-white/80 text-slate-700 hover:bg-white"
-              }`}
-            >
-              {currentT.menuSection.tabMain}
-            </button>
-            <button
-              onClick={() => setActiveTab("drink")}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all shadow-sm ${
-                activeTab === "drink"
-                  ? "bg-[#2c335a] text-white shadow-md"
-                  : "bg-white/80 text-slate-700 hover:bg-white"
-              }`}
-            >
-              {currentT.menuSection.tabDrink}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col border border-blue-100/60 group"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span
-                  className={`absolute top-3 left-3 text-[10px] font-black text-white px-2.5 py-1 rounded-md shadow-sm ${item.badgeColor}`}
-                >
-                  {item.badge}
-                </span>
-                {item.calories && (
-                  <span className="absolute bottom-3 right-3 text-[10px] font-extrabold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md">
-                    {item.calories}
-                  </span>
-                )}
-              </div>
-
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">
-                      {item.name}
-                    </h3>
-                    <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                      {item.tag}
-                    </span>
-                  </div>
-                  <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">
-                    {item.desc}
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-1.5 text-xs mb-3">
-                    <div className="flex items-center text-amber-500">
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    </div>
-                    <span className="font-extrabold text-slate-800 text-xs">
-                      {item.rating}
-                    </span>
-                    <span className="text-slate-400 text-[11px]">
-                      ({item.reviews} ulasan)
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        {currentT.menuSection.priceLabel}
-                      </span>
-                      <span className="text-base font-black text-slate-900">
-                        {item.price}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-10">
-          <button className="inline-flex items-center gap-2 bg-[#2c335a] hover:bg-[#1f2544] text-white text-xs font-bold px-7 py-3 rounded-full shadow-md transition-all">
-            <span>{currentT.menuSection.viewAll}</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      </section>
 
       {/* SYSTEM SECTION */}
       <section id="system" className="py-12 px-4 md:px-12 max-w-7xl mx-auto">
@@ -1151,124 +1024,12 @@ export default function LandingPage({
         </div>
       </section>
 
-      {/* TESTIMONIALS SECTION - DIUPDATE PERSIS GAMBAR */}
+      {/* QR SECTION */}
       <section
-        id="testimonials"
+        id="qr"
         className="py-12 px-4 md:px-12 max-w-7xl mx-auto space-y-6"
       >
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
-            {currentT.testiSection.title}
-          </h2>
 
-          {/* BADGES */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <div className="bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
-              <span className="text-lg font-black text-slate-800">4.9</span>
-              <div className="flex text-amber-400">
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-              </div>
-              <span className="text-[10px] text-slate-400 font-extrabold">
-                {currentT.testiSection.ratingText}
-              </span>
-            </div>
-
-            <div className="bg-[#728db2] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm flex items-center gap-1.5">
-              <span>{currentT.testiSection.recommendText}</span>
-            </div>
-          </div>
-
-          <p className="text-slate-500 text-xs font-semibold">
-            {currentT.testiSection.subtitle}
-          </p>
-        </div>
-
-        {/* TESTIMONIAL CARDS CONTAINER */}
-        <div className="relative max-w-6xl mx-auto pt-4">
-          {/* FLOATING LEFT ARROW */}
-          <button className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 transition-all">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* FLOATING RIGHT ARROW */}
-          <button className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-50 transition-all">
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
-          {/* CARDS GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testi, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100/60 flex flex-col justify-between space-y-6"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      <span className="text-xs font-bold text-slate-800 ml-1">
-                        {testi.rating}
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-bold text-slate-400">
-                      {testi.time}
-                    </span>
-                  </div>
-
-                  <p className="text-slate-600 text-xs italic leading-relaxed font-medium">
-                    {testi.comment}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                  <img
-                    src={testi.avatar}
-                    alt={testi.name}
-                    className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-200"
-                  />
-                  <div>
-                    <h4 className="text-xs font-extrabold text-slate-800">
-                      — {testi.name}
-                    </h4>
-                    <p className="text-[10px] text-slate-400 font-semibold">
-                      {testi.role}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* BOTTOM CONTROLS & DUA TOMBOL SAMA PERSIS DENGAN GAMBAR */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-8">
-            {/* DOT INDIKATOR SLIDER */}
-            <div className="flex items-center gap-1.5">
-              <span className="w-6 h-2 bg-slate-500 rounded-full"></span>
-              <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-              <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-            </div>
-
-            {/* BOTTOM CONTROLS (HANYA MENYISAKAN DOT INDIKATOR) */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-8">
-              {/* DOT INDIKATOR SLIDER */}
-              <div className="flex items-center gap-1.5">
-                <span className="w-6 h-2 bg-slate-500 rounded-full"></span>
-                <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-                <span className="w-2 h-2 bg-slate-300 rounded-full"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* FORM RESERVASI MEJA DIUBAH MENJADI HANYA QR CODE & TOMBOL LANGSUNG */}
         <div
           id="reservation"
           className="bg-[#2c335a] text-white rounded-3xl p-6 sm:p-10 shadow-2xl max-w-2xl mx-auto border border-slate-700 mt-12 text-center space-y-6"
@@ -1282,11 +1043,10 @@ export default function LandingPage({
             </p>
           </div>
 
-          {/* KOTAK BARCODE DI TENGAH */}
           <div className="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/80 text-center space-y-4 flex flex-col items-center justify-center max-w-sm mx-auto shadow-inner">
             <div className="bg-white p-4 rounded-xl shadow-md inline-block">
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SIMADARMenu"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SIMADARDemoSystem"
                 alt="QR Menu"
                 className="w-48 h-48 mx-auto object-contain"
               />
@@ -1301,13 +1061,12 @@ export default function LandingPage({
             </div>
           </div>
 
-          {/* TOMBOL TAUTAN LANGSUNG KE PESAN MENU */}
           <div className="pt-2">
             <button
-              onClick={onNavigateToPesanMenu}
+              onClick={onNavigateToLogin}
               className="w-full max-w-md mx-auto bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>Klik Langsung Menuju Pesan menu</span>
+              <span>{currentT.reservationSection.btnSubmit}</span>
             </button>
           </div>
         </div>
@@ -1354,10 +1113,10 @@ export default function LandingPage({
                 </li>
                 <li>
                   <a
-                    href="#menu"
+                    href="#system"
                     className="hover:text-white transition-colors"
                   >
-                    {currentT.nav.menu}
+                    {currentT.nav.system}
                   </a>
                 </li>
                 <li>
