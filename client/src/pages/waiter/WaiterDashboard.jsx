@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import initialMenuList from "../data/menu.js";
-import DashboardSidebar from "../components/DashboardSidebar.jsx";
-import Toast from "../components/Toast.jsx";
+import { useState } from "react";
+import initialMenuList from "../../data/menu.js";
+import Toast from "../../components/Toast.jsx";
+import { useLocation, useNavigate, useOutletContext } from "react-router";
 import {
   Utensils,
-  LayoutDashboard,
-  FilePlus,
   Flame,
   Bell,
   CheckSquare,
@@ -17,14 +15,17 @@ import {
 } from "lucide-react";
 
 export default function WaiterDashboard({
-  onLogout,
   username = "Waiter",
   orders = [],
   menuList = initialMenuList,
   setOrders,
 }) {
-  const [activeMenu, setActiveMenu] = useState("ringkasan");
-  const [lang, setLang] = useState("id");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const activeMenu = pathname.endsWith("/pesanan-baru")
+    ? "pesanan-baru"
+    : "ringkasan";
+  const { lang, setLang } = useOutletContext();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
   // State Avatar Profil Waiter
@@ -233,7 +234,7 @@ export default function WaiterDashboard({
     }
 
     const newOrder = {
-      id: Date.now(),
+      // id: Date.now(),
       table: selectedTable,
       customer: customerName || (lang === "id" ? "Pelanggan" : "Customer"),
       items: [...cartItems],
@@ -256,7 +257,7 @@ export default function WaiterDashboard({
     setSelectedTable(null);
     setCustomerName("");
     setOrderNotes("");
-    setActiveMenu("ringkasan");
+    navigate("/dashboardwaiter");
   };
 
   const handleServeOrder = (orderId) => {
@@ -287,34 +288,12 @@ export default function WaiterDashboard({
   );
 
   return (
-    <div className="h-screen w-full flex bg-[#f1f5f9] font-sans text-slate-800 select-none overflow-hidden relative">
+    <div className="h-screen w-full bg-[#f1f5f9] font-sans text-slate-800 select-none overflow-hidden relative">
       {/* NOTIFIKASI TOAST */}
       <Toast message={toastMessage} visible={showToast} />
 
-      <DashboardSidebar
-        username={username}
-        roleTitle={dict.roleTitle}
-        logoutLabel={dict.logout}
-        onLogout={onLogout}
-        activeItem={activeMenu}
-        onItemSelect={setActiveMenu}
-        className="h-screen sticky top-0 z-40"
-        items={[
-          {
-            id: "ringkasan",
-            label: dict.navRingkasan,
-            icon: LayoutDashboard,
-          },
-          {
-            id: "pesanan-baru",
-            label: dict.navPesananBaru,
-            icon: FilePlus,
-          },
-        ]}
-      />
-
       {/* KONTEN KANAN */}
-      <main className="flex-1 flex flex-col h-screen overflow-y-auto">
+      <main className="flex flex-col h-screen overflow-y-auto">
         <header className="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-xs shrink-0">
           <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
             {activeMenu === "ringkasan"
@@ -468,7 +447,7 @@ export default function WaiterDashboard({
                           onClick={() => {
                             if (!tableOrder) {
                               setSelectedTable(tableNum);
-                              setActiveMenu("pesanan-baru");
+                              navigate("/dashboardwaiter/pesanan-baru");
                             }
                           }}
                           className={`border-2 p-4 rounded-xl text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-1 group ${

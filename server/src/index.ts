@@ -1,26 +1,30 @@
+import { prisma }from "./lib/client";
 import express, { type Express, type Request, type Response } from 'express';
-import { PrismaClient } from "../generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import "dotenv/config";
-import jwt from 'jsonwebtoken';
-import bcryptjs from 'bcryptjs';
-import cors from 'cors';
-
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-export const prisma = new PrismaClient({ adapter });
 
 const app: Express = express();
 
-const restaurant = await prisma.restaurant.findMany({
-    select: {
-        name: true
-    }
+app.use(express.json());
+
+const tenant = await prisma.tenant.findMany({
+  select: {
+    tenantName: true
+  }
+})
+
+const menuItem = await prisma.menuItem.findMany({
+  select: {
+    menuName: true,
+    isAvailable: true
+  }
 })
 
 app.get('/', (req: Request, res: Response) => {
-  res.send(restaurant);
+  res.send({tenant, menuItem});
 });
 
+app.post('/post', (req: Request, res: Response) => {
+
+})
 
 const PORT = 5000;
 app.listen(PORT, () => {

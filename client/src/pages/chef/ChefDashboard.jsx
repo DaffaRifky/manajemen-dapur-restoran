@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import DashboardSidebar from "../components/DashboardSidebar.jsx";
-import Toast from "../components/Toast.jsx";
+import Toast from "../../components/Toast.jsx";
+import { useOutletContext } from "react-router";
 import {
   Utensils,
   ChefHat,
@@ -16,12 +16,11 @@ import {
 } from "lucide-react";
 
 export default function ChefDashboard({
-  onLogout,
   username = "csdc",
   orders = [],
   setOrders,
 }) {
-  const [lang, setLang] = useState("id");
+  const { lang, setLang } = useOutletContext();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
   // State Avatar Profil Koki (Menggunakan Dicebear 3D seperti Waiter)
@@ -162,22 +161,6 @@ export default function ChefDashboard({
     <div className="min-h-screen w-full flex bg-[#f1f5f9] font-sans text-slate-800 select-none relative">
       {/* TOAST CENTANG HIJAU */}
       <Toast message={toastMessage} visible={showToast} />
-
-      <DashboardSidebar
-        username={username}
-        roleTitle={dict.roleTitle}
-        logoutLabel={dict.logout}
-        onLogout={onLogout}
-        activeItem="queue"
-        items={[
-          {
-            id: "queue",
-            label: dict.navAntrian,
-            icon: ChefHat,
-            iconClassName: "w-4 h-4 text-amber-400",
-          },
-        ]}
-      />
 
       {/* 2. KONTEN UTAMA */}
       <main className="flex-1 flex flex-col overflow-y-auto">

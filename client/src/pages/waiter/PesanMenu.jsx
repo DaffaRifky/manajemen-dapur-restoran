@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import initialMenuList from "../data/menu.js";
+import initialMenuList from "../../data/menu.js";
+import { useLocation, useNavigate, useOutletContext } from "react-router";
 import {
   Utensils,
-  Grid,
   Clock,
-  LogOut,
   X,
   ChevronDown,
   Plus,
@@ -13,20 +12,26 @@ import {
 } from "lucide-react";
 
 export default function PesanMenu({
-  onNavigateToHome,
   orders = [],
   setOrders,
   menuList = initialMenuList,
 }) {
-  // Tab Navigasi Dashboard Pelanggan ('ringkasan', 'pesan-menu', 'pesananku')
-  const [activeNav, setActiveNav] = useState("ringkasan");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const activeNav = pathname.endsWith("/pesan-menu")
+    ? "pesan-menu"
+    : pathname.endsWith("/pesananku")
+      ? "pesananku"
+      : "ringkasan";
 
   // Mode Pemesanan: 'dinein' (Scan QR) atau 'takeaway' (Pesan dari rumah)
   const [orderType, setOrderType] = useState("dinein");
   const [selectedTable, setSelectedTable] = useState("Meja 1");
 
   // Bahasa (ID / EN) & Dropdown
-  const [lang, setLang] = useState("ID");
+  const { lang: layoutLanguage, setLang: setLayoutLanguage } = useOutletContext();
+  const lang = layoutLanguage.toUpperCase();
+  const setLang = (nextLanguage) => setLayoutLanguage(nextLanguage.toLowerCase());
   const [isLangOpen, setIsLangOpen] = useState(false);
 
   // Form Pelanggan
@@ -120,7 +125,7 @@ export default function PesanMenu({
 
     // Mengosongkan keranjang & beralih ke tab Pesanan Saya
     setCart([]);
-    setActiveNav("pesananku");
+    navigate("/pesanmenu/pesananku");
   };
 
   const filteredMenu = menuList.filter((item) => {
@@ -133,76 +138,8 @@ export default function PesanMenu({
   });
 
   return (
-    <div className="min-h-screen bg-[#f3f6fa] text-slate-800 flex font-sans selection:bg-blue-200">
-      {/* 1. SIDEBAR KIRI */}
-      <aside className="w-60 bg-[#121929] text-slate-300 flex flex-col justify-between hidden md:flex shrink-0 shadow-xl">
-        <div>
-          <div className="p-5 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center font-black text-slate-950 text-base shadow-md">
-              🍽️
-            </div>
-            <div>
-              <h2 className="text-white font-black text-sm tracking-tight">
-                Tamu
-              </h2>
-              <p className="text-[10px] text-amber-400 font-bold">
-                Dashboard Pelanggan
-              </p>
-            </div>
-          </div>
-
-          <nav className="px-3 py-2 space-y-1">
-            <button
-              onClick={() => setActiveNav("ringkasan")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                activeNav === "ringkasan"
-                  ? "bg-[#1e293b] text-white font-extrabold border-l-4 border-amber-500 shadow-sm"
-                  : "hover:bg-slate-800/50 text-slate-400"
-              }`}
-            >
-              <Grid className="w-4 h-4" />
-              <span>{lang === "ID" ? "Ringkasan" : "Summary"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveNav("pesan-menu")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                activeNav === "pesan-menu"
-                  ? "bg-[#1e293b] text-white font-extrabold border-l-4 border-amber-500 shadow-sm"
-                  : "hover:bg-slate-800/50 text-slate-400"
-              }`}
-            >
-              <Utensils className="w-4 h-4" />
-              <span>{lang === "ID" ? "Pesan Menu" : "Order Menu"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveNav("pesananku")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                activeNav === "pesananku"
-                  ? "bg-[#1e293b] text-white font-extrabold border-l-4 border-amber-500 shadow-sm"
-                  : "hover:bg-slate-800/50 text-slate-400"
-              }`}
-            >
-              <Clock className="w-4 h-4" />
-              <span>{lang === "ID" ? "Pesanan Saya" : "My Orders"}</span>
-            </button>
-          </nav>
-        </div>
-
-        <div className="p-4 border-t border-slate-800/80">
-          <button
-            onClick={onNavigateToHome}
-            className="w-full flex items-center gap-2.5 text-red-400 hover:text-red-300 px-3 py-2 text-xs font-extrabold transition-all cursor-pointer"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>{lang === "ID" ? "Keluar" : "Logout"}</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* 2. KONTEN UTAMA */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+    <div className="min-h-screen bg-[#f3f6fa] text-slate-800 font-sans selection:bg-blue-200">
+      <div className="w-full flex flex-col min-w-0 overflow-y-auto">
         {/* NAVBAR ATAS */}
         <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm sticky top-0 z-30">
           <h1 className="text-xl font-black text-slate-900 tracking-tight">
@@ -315,7 +252,7 @@ export default function PesanMenu({
                         onClick={() => {
                           setSelectedTable(`Meja ${num}`);
                           setOrderType("dinein");
-                          setActiveNav("pesan-menu");
+                          navigate("/pesanmenu/pesan-menu");
                         }}
                         className={`border border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer flex flex-col items-center justify-center ${
                           selectedTable === `Meja ${num}`
@@ -343,7 +280,7 @@ export default function PesanMenu({
                     <button
                       onClick={() => {
                         setOrderType("dinein");
-                        setActiveNav("pesan-menu");
+                        navigate("/pesanmenu/pesan-menu");
                       }}
                       className="w-full flex items-center gap-3.5 p-4 rounded-2xl border border-slate-200/80 hover:bg-slate-50 transition-all text-left"
                     >
@@ -360,7 +297,7 @@ export default function PesanMenu({
                     <button
                       onClick={() => {
                         setOrderType("takeaway");
-                        setActiveNav("pesan-menu");
+                        navigate("/pesanmenu/pesan-menu");
                       }}
                       className="w-full flex items-center gap-3.5 p-4 rounded-2xl border border-slate-200/80 hover:bg-slate-50 transition-all text-left"
                     >
@@ -647,7 +584,7 @@ export default function PesanMenu({
                         : "No orders created yet."}
                     </p>
                     <button
-                      onClick={() => setActiveNav("pesan-menu")}
+                      onClick={() => navigate("/pesanmenu/pesan-menu")}
                       className="mt-2 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer shadow-xs"
                     >
                       {lang === "ID" ? "Pesan Sekarang" : "Order Now"}

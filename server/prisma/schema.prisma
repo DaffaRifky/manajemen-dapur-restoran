@@ -4,22 +4,12 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-}
-
-model Restaurant {
-  id    Int @id @default(autoincrement())
-  name  String
-  slug  String  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  users      User[]
 }
 
 enum Role {
@@ -29,15 +19,57 @@ enum Role {
   Cashier
 }
 
-model User {
+model Tenant {
   id Int @id @default(autoincrement())
-  restaurantId Int
-  name String
-  email String @unique
-  passwordHash String
+  ownerId String @db.Uuid
+  tenantName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner   User   @relation("TenantOwner", fields: [ownerId], references: [id])
+
+  users   User[] @relation("TenantMembers")
+  categories MenuCategory[]
+  menuItems MenuItem[]
+}
+
+model User {
+  id    String     @id @db.Uuid
+  tenantId Int
+  userName  String
+  email String  @unique
   role Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  restaurant     Restaurant       @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  tenant       Tenant   @relation("TenantMembers", fields: [tenantId], references: [id])
+  ownedTenants Tenant[] @relation("TenantOwner")
+  @@index([tenantId])
+}
+
+model MenuCategory {
+  id  Int @id @default(autoincrement())
+  tenantId Int
+  categoryName  String  @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  menuItems  MenuItem[]
+}
+
+model MenuItem {
+  id  Int @id @default(autoincrement())
+  categoryId  Int
+  tenantId  Int
+  menuName  String  @unique
+  description  String?
+  isAvailable  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  category   MenuCategory    @relation(fields: [categoryId], references: [id])
+
+  @@index([tenantId, categoryId])
 }

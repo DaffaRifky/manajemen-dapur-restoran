@@ -8,8 +8,10 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "ESNext",
-    "target": "ES2023",
-    "types": ["node"],
+    "target": "ES2022",
+    "types": [],
+    "allowJs": true,
+    "checkJs": true,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -42,9 +44,6 @@
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
-    "rewriteRelativeImportExtensions": true,
-    "erasableSyntaxOnly": true,
-    "noEmit": true,
-  }
+  },
+  "include": ["src", "generated"],
 }
