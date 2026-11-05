@@ -1,5 +1,7 @@
 import { Role } from "../../../server/generated/prisma/enums"
-import { InputField } from "./FormField"
+import { InputField, SubmitFormButton } from "./FormField"
+import Modal from "../components/modal"
+
 
 export default function StaffCRUD(){
     return(
@@ -9,6 +11,7 @@ export default function StaffCRUD(){
             <InputField textColor="black" type="email" label="Email"  />
             <InputField textColor="black" type="password" label="Password"  />
 
+            <SubmitFormButton text="Simpan" />
         </form>
     )
 }

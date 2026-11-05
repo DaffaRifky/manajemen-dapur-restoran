@@ -29,6 +29,6 @@ export function SelectField(props){
 
 export function SubmitFormButton(props){
     return(
-        <button className={`p-2 rounded-xl bg-${props.buttonColor}-500 hover:bg-${props.buttonColor}-700 cursor-pointer text-center text-white w-full`}>{props.text}</button>
+        <button className={`p-2 rounded-xl mt-4 bg-blue-500 hover:bg-blue-400 cursor-pointer text-center text-white w-full`}>{props.text}</button>
     )
 }

@@ -25,7 +25,7 @@ export function Section(props){
     )
 }
 
-export function Card(props){
+export function ImageCard(props){
     const [imageFailed, setImageFailed] = useState(false)
 
     return(
@@ -53,5 +53,13 @@ export function Card(props){
             )}
             <p className="text-2xl m-2">{props.name}</p>
         </div>
+    )
+}
+
+export function Card(props) {
+    return (
+    <div className={`w-55 h-30 bg-white rounded-2xl shadow flex items-center justify-center`} >
+        {props.children}
+    </div>
     )
 }

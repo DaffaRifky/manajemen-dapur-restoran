@@ -5,7 +5,12 @@ import StaffCRUD from "../../../../form/staffCRUD"
 export default function Waiter(){
     return(
         <div className="flex flex-col min-h-screen items-center justify-center">
-            <StaffCRUD />
+            <button className="bg-blue-500 text-white p-2 rounded-lg" id="add-Staff" command="show-modal" commandfor="add-staff">
+                Tambah Staff
+            </button>
+            <Modal modalFor="add-staff" title="Tambah Staff Baru">
+                <StaffCRUD />
+            </Modal>
             <Table />
         </div>
     )
