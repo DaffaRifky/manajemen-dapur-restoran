@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { InputField } from "./FormField";
 import { useState } from "react";
 
@@ -11,6 +11,13 @@ export default function LoginForm(){
         pass: "",
         passConfirm: "",
     })
+
+    // const navigate = useNavigate();
+
+    // function handleSignup(e){
+    //     e.preventDefault();
+    //     const { restaurantName, username, email, pass, passConfirm } = signupVal;
+    // }
 
     return(
         <form action="" className="flex flex-col p-8 bg-[#1F2232] w-100 rounded-xl">
