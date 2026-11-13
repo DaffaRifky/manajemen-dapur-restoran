@@ -9,11 +9,13 @@ import {
   CheckCircle2,
   Camera,
   X,
+  CreditCard,
+  Banknote,
 } from "lucide-react";
 
 export default function CashierDashboard({
   onLogout,
-  username = "kasir",
+  username = "Kasir Resto",
   orders = [],
   setOrders,
 }) {
@@ -39,103 +41,114 @@ export default function CashierDashboard({
       url: "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahCashier&style=circle",
       label: "Sarah 3D",
     },
-    {
-      id: 3,
-      url: "https://api.dicebear.com/7.x/avataaars/svg?seed=HijabCashier&style=circle",
-      label: "Aisha 3D",
-    },
-    {
-      id: 4,
-      url: "https://api.dicebear.com/7.x/avataaars/svg?seed=JackCashier&style=circle",
-      label: "Daniel 3D",
-    },
   ];
 
   // State Toast Notifikasi
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-  // State Uang Modal Kasir (Receh)
+  // State Modal Pembayaran (Cash/Non-Tunai & Kembalian)
+  const [selectedOrderForPayment, setSelectedOrderForPayment] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("cash"); // 'cash' atau 'non-cash'
+  const [cashGiven, setCashGiven] = useState("");
+
+  // State Uang Modal Kasir (Receh) sesuai panduan poin 10
   const [modalDenominations, setModalDenominations] = useState([
-    { nominal: 10000, qty: 3 },
     { nominal: 100000, qty: 2 },
+    { nominal: 10000, qty: 3 },
   ]);
   const [inputNominal, setInputNominal] = useState("");
   const [inputQty, setInputQty] = useState("");
 
-  // State Hitung Kas Akhir & Posting
+  // State Hitung Kas Akhir & Posting Harian (poin 8 & 10)
   const [cashInDrawer, setCashInDrawer] = useState("");
   const [postedData, setPostedData] = useState([]);
 
-  // Kamus Terjemahan
+  // Kamus 2 Bahasa (Indonesia & English) sesuai panduan poin 9
   const t = {
     id: {
       roleTitle: "Dashboard Kasir",
       loginAs: "Login sebagai Kasir",
-      navRingkasan: "Ringkasan",
-      navUangModal: "Uang modal kasir (receh)",
-      navHitungKas: "Hitung kas akhir",
+      navRingkasan: "Ringkasan Transaksi",
+      navUangModal: "Uang Modal Kasir (Receh)",
+      navHitungKas: "Hitung Kas Akhir",
       navPosting: "Posting Harian",
       logout: "Keluar",
-      ringkasanHeader: "Ringkasan",
-      notaMenunggu: "Nota yang menunggu",
-      penjualanHariIni: "Penjualan hari ini",
-      tabelTransaksi: "Tabel Transaksi",
-      meja: "Meja",
-      menu: "Menu",
-      total: "Total",
-      waktuBayar: "Waktu Bayar",
-      belumAdaData: "Belum ada data",
+      ringkasanHeader: "Ringkasan Pembayaran & Kasir",
+      notaMenunggu: "Nota Menunggu Pembayaran",
+      penjualanHariIni: "Total Penjualan Hari Ini",
+      tabelTransaksi: "Tabel Transaksi Aktif",
+      meja: "Meja & Pelanggan",
+      menu: "Detail Pesanan",
+      total: "Total Harga",
+      status: "Status Meja/Pesanan",
+      belumAdaData: "Belum ada data transaksi",
       btnBayar: "Proses Bayar",
-      msgBayarSuccess: "Pembayaran pesanan berhasil diproses!",
-      uangModalTitle: "Uang modal kasir (receh)",
-      tambah: "Tambah",
-      nominalPlaceholder: "Nominal uang modal...",
-      hitungKasHeader: "Hitung kas akhir",
-      seharusnyaModal: "Seharusnya (modal + tunai):",
-      uangTunaiPlaceholder: "Uang tunai di laci",
-      simpan: "Simpan",
-      postingHeader: "Posting Harian",
-      postingHarianBtn: "Posting Harian",
-      dataPenjualan: "Data Penjualan",
+      msgBayarSuccess: "Pembayaran berhasil diproses oleh Kasir!",
+      uangModalTitle: "Kelola Uang Modal / Receh untuk Kembalian",
+      tambah: "Tambah Pecahan",
+      nominalPlaceholder: "Nominal uang (mis: 50000)",
+      hitungKasHeader: "Hitung Kas Akhir (Tutup Toko)",
+      seharusnyaModal: "Total Seharusnya (Modal Awal + Tunai Masuk):",
+      uangTunaiPlaceholder: "Masukkan total uang fisik di laci kasir",
+      simpan: "Simpan Kas Akhir",
+      postingHeader: "Posting Harian (Arsipkan ke Data Penjualan Bulanan)",
+      postingHarianBtn: "Lakukan Posting Harian",
+      dataPenjualan: "Arsip Data Penjualan Terposting",
       selectAvatar: "Pilih Avatar Kasir",
+      modalBayarTitle: "Proses Pembayaran Pesanan",
+      metodeBayar: "Metode Pembayaran",
+      cash: "Tunai (Cash)",
+      nonCash: "Non-Tunai (QRIS/Transfer)",
+      uangDiterima: "Uang Tunai Dari Pelanggan",
+      kembalian: "Uang Kembalian",
+      konfirmasiBayar: "Konfirmasi & Selesaikan Pembayaran",
+      batal: "Batal",
     },
     en: {
       roleTitle: "Cashier Dashboard",
       loginAs: "Logged in as Cashier",
-      navRingkasan: "Overview",
+      navRingkasan: "Transaction Overview",
       navUangModal: "Cash Drawer Float (Change)",
       navHitungKas: "Calculate Final Cash",
       navPosting: "Daily Posting",
       logout: "Logout",
-      ringkasanHeader: "Overview",
-      notaMenunggu: "Pending bills",
-      penjualanHariIni: "Today's sales",
-      tabelTransaksi: "Transaction Table",
-      meja: "Table",
-      menu: "Menu",
-      total: "Total",
-      waktuBayar: "Payment Time",
-      belumAdaData: "No data available",
+      ringkasanHeader: "Payment & Cashier Overview",
+      notaMenunggu: "Pending Bills",
+      penjualanHariIni: "Today's Total Sales",
+      tabelTransaksi: "Active Transaction Table",
+      meja: "Table & Customer",
+      menu: "Order Details",
+      total: "Total Price",
+      status: "Table/Order Status",
+      belumAdaData: "No transaction data available",
       btnBayar: "Process Payment",
-      msgBayarSuccess: "Order payment processed successfully!",
-      uangModalTitle: "Cash Drawer Float (Change)",
-      tambah: "Add",
-      nominalPlaceholder: "Float amount...",
-      hitungKasHeader: "Calculate Final Cash",
-      seharusnyaModal: "Expected (float + cash):",
-      uangTunaiPlaceholder: "Cash in drawer",
-      simpan: "Save",
-      postingHeader: "Daily Posting",
-      postingHarianBtn: "Daily Posting",
-      dataPenjualan: "Sales Data",
+      msgBayarSuccess: "Payment processed successfully by cashier!",
+      uangModalTitle: "Manage Cash Float / Change",
+      tambah: "Add Denomination",
+      nominalPlaceholder: "Nominal amount",
+      hitungKasHeader: "Calculate Final Cash (Closing)",
+      seharusnyaModal: "Expected Total (Float + Cash):",
+      uangTunaiPlaceholder: "Enter total physical cash in drawer",
+      simpan: "Save Final Cash",
+      postingHeader: "Daily Posting (Archive to Monthly Sales)",
+      postingHarianBtn: "Execute Daily Posting",
+      dataPenjualan: "Archived Sales Data",
       selectAvatar: "Select Cashier Avatar",
+      modalBayarTitle: "Process Order Payment",
+      metodeBayar: "Payment Method",
+      cash: "Cash",
+      nonCash: "Non-Cash (QRIS/Transfer)",
+      uangDiterima: "Cash Received",
+      kembalian: "Change",
+      konfirmasiBayar: "Confirm & Complete Payment",
+      batal: "Cancel",
     },
   };
 
   const dict = t[lang];
 
-  // Hitung Total Uang Modal
+  // Hitung Total Uang Modal (Receh)
   const totalModalAmount = modalDenominations.reduce(
     (acc, item) => acc + item.nominal * item.qty,
     0,
@@ -159,17 +172,22 @@ export default function CashierDashboard({
     setInputQty("");
   };
 
+  // Filter pesanan yang belum lunas
   const pendingOrders = orders.filter(
     (o) => o.status !== "Sudah Dibayar" && o.status !== "Paid",
   );
 
-  const handleProcessPayment = (orderId) => {
+  // Proses Konfirmasi Pembayaran
+  const handleConfirmPayment = () => {
+    if (!selectedOrderForPayment) return;
+
     setOrders((prev) =>
       prev.map((o) =>
-        o.id === orderId
+        o.id === selectedOrderForPayment.id
           ? {
               ...o,
               status: "Sudah Dibayar",
+              paymentMethod: paymentMethod,
               paidAt: new Date().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -178,11 +196,16 @@ export default function CashierDashboard({
           : o,
       ),
     );
+
     setToastMessage(dict.msgBayarSuccess);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
+
+    setSelectedOrderForPayment(null);
+    setCashGiven("");
   };
 
+  // Total Penjualan Hari Ini dari pesanan lunas
   const paidOrders = orders.filter((o) => o.status === "Sudah Dibayar");
   const totalSalesToday = paidOrders.reduce(
     (sum, o) => sum + (o.total || 0),
@@ -192,13 +215,14 @@ export default function CashierDashboard({
   const handleSaveFinalCash = () => {
     setToastMessage(
       lang === "id"
-        ? "Kas akhir berhasil disimpan!"
-        : "Final cash saved successfully!",
+        ? "Kas akhir berhasil disimpan dan dicocokkan!"
+        : "Final cash saved and reconciled successfully!",
     );
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
   };
 
+  // Sesuai panduan poin 8: Posting harian memindahkan data ke tabel rekap penjualan
   const handlePostingHarian = () => {
     if (paidOrders.length === 0) {
       setToastMessage(
@@ -210,11 +234,11 @@ export default function CashierDashboard({
       setTimeout(() => setShowToast(false), 3000);
       return;
     }
-    setPostedData([...paidOrders]);
+    setPostedData([...postedData, ...paidOrders]);
     setToastMessage(
       lang === "id"
-        ? "Posting harian berhasil dilakukan!"
-        : "Daily posting completed successfully!",
+        ? "Posting harian berhasil! Data transaksi dipindahkan ke rekap penjualan."
+        : "Daily posting successful! Transaction data moved to sales report.",
     );
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
@@ -222,10 +246,115 @@ export default function CashierDashboard({
 
   return (
     <div className="h-screen w-full flex bg-[#f1f5f9] font-sans text-slate-800 select-none overflow-hidden relative">
+      {/* MODAL PEMBAYARAN & KEMBALIAN (Poin 8) */}
+      {selectedOrderForPayment && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-sm font-extrabold text-slate-900">
+                {dict.modalBayarTitle} (Meja {selectedOrderForPayment.table})
+              </h3>
+              <button
+                onClick={() => setSelectedOrderForPayment(null)}
+                className="text-slate-400 hover:text-slate-600 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div className="flex justify-between bg-slate-50 p-3 rounded-xl">
+                <span className="font-bold text-slate-600">Pelanggan:</span>
+                <span className="font-extrabold text-slate-900">
+                  {selectedOrderForPayment.customer}
+                </span>
+              </div>
+              <div className="flex justify-between bg-slate-50 p-3 rounded-xl">
+                <span className="font-bold text-slate-600">Total Tagihan:</span>
+                <span className="font-black text-amber-600 text-sm">
+                  Rp {selectedOrderForPayment.total?.toLocaleString("id-ID")}
+                </span>
+              </div>
+
+              <div className="space-y-1 pt-1">
+                <label className="font-bold text-slate-700">
+                  {dict.metodeBayar}
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("cash")}
+                    className={`py-2 px-3 rounded-xl border font-bold flex items-center justify-center gap-2 cursor-pointer ${
+                      paymentMethod === "cash"
+                        ? "border-amber-500 bg-amber-50 text-amber-700"
+                        : "border-slate-200 text-slate-600"
+                    }`}
+                  >
+                    <Banknote className="w-4 h-4" /> {dict.cash}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("non-cash")}
+                    className={`py-2 px-3 rounded-xl border font-bold flex items-center justify-center gap-2 cursor-pointer ${
+                      paymentMethod === "non-cash"
+                        ? "border-amber-500 bg-amber-50 text-amber-700"
+                        : "border-slate-200 text-slate-600"
+                    }`}
+                  >
+                    <CreditCard className="w-4 h-4" /> {dict.nonCash}
+                  </button>
+                </div>
+              </div>
+
+              {paymentMethod === "cash" && (
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700">
+                    {dict.uangDiterima}
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Contoh: 50000"
+                    value={cashGiven}
+                    onChange={(e) => setCashGiven(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl font-bold text-slate-800 outline-none focus:border-amber-500"
+                  />
+                  {cashGiven >= selectedOrderForPayment.total && (
+                    <div className="flex justify-between pt-2 text-emerald-700 font-bold bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
+                      <span>{dict.kembalian}:</span>
+                      <span>
+                        Rp{" "}
+                        {(
+                          cashGiven - selectedOrderForPayment.total
+                        ).toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 pt-2">
+              <button
+                onClick={() => setSelectedOrderForPayment(null)}
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold cursor-pointer"
+              >
+                {dict.batal}
+              </button>
+              <button
+                onClick={handleConfirmPayment}
+                className="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2.5 rounded-xl text-xs font-bold shadow-md cursor-pointer"
+              >
+                {dict.konfirmasiBayar}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* MODAL PILIH AVATAR */}
       {isAvatarModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-sm font-extrabold text-slate-900">
                 {dict.selectAvatar}
@@ -245,7 +374,7 @@ export default function CashierDashboard({
                     setAvatar(av.url);
                     setIsAvatarModalOpen(false);
                   }}
-                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all hover:border-amber-500 ${
+                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl border-2 cursor-pointer transition-all ${
                     avatar === av.url
                       ? "border-amber-500 bg-amber-50/50"
                       : "border-slate-200 bg-slate-50"
@@ -254,7 +383,7 @@ export default function CashierDashboard({
                   <img
                     src={av.url}
                     alt={av.label}
-                    className="w-14 h-14 rounded-full object-cover border border-slate-200 shadow-xs"
+                    className="w-14 h-14 rounded-full object-cover border border-slate-200"
                   />
                   <span className="text-xs font-bold text-slate-700">
                     {av.label}
@@ -366,7 +495,7 @@ export default function CashierDashboard({
           </h1>
 
           <div className="flex items-center gap-4">
-            {/* AVATAR PROFIL KASIR (SAMA SEPERTI WAITER) */}
+            {/* AVATAR PROFIL KASIR */}
             <div
               onClick={() => setIsAvatarModalOpen(true)}
               className="flex items-center gap-3 bg-slate-50 hover:bg-amber-50/60 border border-slate-200/80 hover:border-amber-300 px-3.5 py-1.5 rounded-2xl shadow-xs cursor-pointer transition-all group"
@@ -391,6 +520,7 @@ export default function CashierDashboard({
               </div>
             </div>
 
+            {/* PILIHAN BAHASA (Poin 9) */}
             <div className="relative">
               <button
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
@@ -469,9 +599,9 @@ export default function CashierDashboard({
                     <thead>
                       <tr className="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                         <th className="pb-3">{dict.meja}</th>
-                        <th className="pb-3">{dict.menu}</th>
+                        <th className="pb-3">{dict.menu} (Harga & Qty)</th>
                         <th className="pb-3">{dict.total}</th>
-                        <th className="pb-3">{dict.waktuBayar}</th>
+                        <th className="pb-3">{dict.status}</th>
                         <th className="pb-3 text-right">Aksi</th>
                       </tr>
                     </thead>
@@ -493,7 +623,10 @@ export default function CashierDashboard({
                             </td>
                             <td className="py-3 text-slate-500">
                               {ord.items
-                                ?.map((i) => `${i.name} ×${i.qty}`)
+                                ?.map(
+                                  (i) =>
+                                    `${i.name} (Rp ${i.price.toLocaleString("id-ID")} × ${i.qty})`,
+                                )
                                 .join(", ")}
                             </td>
                             <td className="py-3 font-bold text-slate-900">
@@ -502,18 +635,20 @@ export default function CashierDashboard({
                             <td className="py-3">
                               {ord.status === "Sudah Dibayar" ? (
                                 <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-emerald-200">
-                                  Lunas ({ord.paidAt || "Selesai"})
+                                  Lunas ({ord.paymentMethod})
                                 </span>
                               ) : (
                                 <span className="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-amber-200">
-                                  Menunggu Pembayaran
+                                  {ord.status || "Menunggu Pembayaran"}
                                 </span>
                               )}
                             </td>
                             <td className="py-3 text-right">
                               {ord.status !== "Sudah Dibayar" && (
                                 <button
-                                  onClick={() => handleProcessPayment(ord.id)}
+                                  onClick={() =>
+                                    setSelectedOrderForPayment(ord)
+                                  }
                                   className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs cursor-pointer transition-colors"
                                 >
                                   {dict.btnBayar}
@@ -530,7 +665,7 @@ export default function CashierDashboard({
             </div>
           )}
 
-          {/* MENU 2: UANG MODAL KASIR (RECEH) */}
+          {/* MENU 2: UANG MODAL KASIR (RECEH) - Sesuai poin 10 */}
           {activeMenu === "uang-modal" && (
             <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6">
               <h3 className="text-sm font-extrabold text-slate-900">
@@ -578,13 +713,14 @@ export default function CashierDashboard({
 
               <div className="pt-2 border-t border-slate-100 max-w-md">
                 <p className="text-sm font-black text-slate-900">
-                  Total: Rp {totalModalAmount.toLocaleString("id-ID")}
+                  Total Modal Awal: Rp{" "}
+                  {totalModalAmount.toLocaleString("id-ID")}
                 </p>
               </div>
             </div>
           )}
 
-          {/* MENU 3: HITUNG KAS AKHIR */}
+          {/* MENU 3: HITUNG KAS AKHIR - Sesuai poin 10 */}
           {activeMenu === "hitung-kas" && (
             <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6 max-w-xl">
               <h3 className="text-sm font-extrabold text-slate-900">
@@ -616,15 +752,15 @@ export default function CashierDashboard({
             </div>
           )}
 
-          {/* MENU 4: POSTING HARIAN */}
+          {/* MENU 4: POSTING HARIAN - Sesuai poin 8 */}
           {activeMenu === "posting-harian" && (
             <div className="space-y-6">
               <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-600">
-                    Tabel Transaksi:{" "}
+                    Transaksi Belum Diposting:{" "}
                     <strong className="text-slate-900">
-                      {paidOrders.length} · Rp{" "}
+                      {paidOrders.length} Transaksi · Rp{" "}
                       {totalSalesToday.toLocaleString("id-ID")}
                     </strong>
                   </span>
@@ -639,7 +775,7 @@ export default function CashierDashboard({
 
               <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                 <h3 className="text-sm font-extrabold text-slate-900">
-                  {dict.dataPenjualan}
+                  {dict.dataPenjualan} (Arsip Harian)
                 </h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
@@ -648,7 +784,7 @@ export default function CashierDashboard({
                         <th className="pb-3">{dict.meja}</th>
                         <th className="pb-3">{dict.menu}</th>
                         <th className="pb-3">{dict.total}</th>
-                        <th className="pb-3">{dict.waktuBayar}</th>
+                        <th className="pb-3">Waktu Bayar</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
@@ -676,7 +812,7 @@ export default function CashierDashboard({
                               Rp {item.total?.toLocaleString("id-ID")}
                             </td>
                             <td className="py-3 text-slate-500">
-                              {item.paidAt || "Selesai"}
+                              {item.paidAt || "Selesai"} ({item.paymentMethod})
                             </td>
                           </tr>
                         ))
