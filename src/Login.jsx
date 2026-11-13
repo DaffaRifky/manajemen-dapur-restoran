@@ -15,6 +15,7 @@ import {
   Users,
   CheckCircle2,
   AlertCircle,
+  Loader2, // <-- TAMBAHKAN INI
 } from "lucide-react";
 import LupaPassword from "./LupaPassword"; // <-- Impor komponen LupaPassword
 
@@ -22,11 +23,10 @@ export default function Login({ onNavigateToHome, onLoginSuccess }) {
   const [isRegistering, setIsRegistering] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  // State untuk mengontrol Modal Lupa Password
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  // State Notifikasi Pesan Sukses & Error
+  const [isLoading, setIsLoading] = useState(false); // <-- TAMBAHKAN INI
+
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -91,25 +91,26 @@ export default function Login({ onNavigateToHome, onLoginSuccess }) {
 
       const validAccount = defaultAccounts[selectedRole];
 
-      // Pengecekan Username dan Password
-      if (
-        validAccount &&
-        (inputUsername === validAccount.username ||
-          inputUsername.includes(selectedRole)) &&
-        inputPassword === validAccount.password
-      ) {
-        setSuccessMessage(
-          `Login berhasil sebagai ${selectedRole.toUpperCase()}! Mengalihkan ke halaman...`,
-        );
+     if (
+       validAccount &&
+       (inputUsername === validAccount.username ||
+         inputUsername.includes(selectedRole)) &&
+       inputPassword === validAccount.password
+     ) {
+       setIsLoading(true); // <-- TAMBAHKAN INI
+       setSuccessMessage(
+         `Login berhasil sebagai ${selectedRole.toUpperCase()}! Memuat dashboard...`,
+       );
 
-        setTimeout(() => {
-          if (onLoginSuccess) {
-            onLoginSuccess(selectedRole, formData.username || "User");
-          }
-        }, 1500);
-      } else {
-        setErrorMessage("Username atau password yang Anda masukkan salah!");
-      }
+       setTimeout(() => {
+         setIsLoading(false); // <-- TAMBAHKAN INI
+         if (onLoginSuccess) {
+           onLoginSuccess(selectedRole, formData.username || "User");
+         }
+       }, 1500);
+     } else {
+       setErrorMessage("Username atau password yang Anda masukkan salah!");
+     }
     }
   };
 
@@ -448,12 +449,24 @@ export default function Login({ onNavigateToHome, onLoginSuccess }) {
             {/* Tombol Submit */}
             <button
               type="submit"
-              className="w-full mt-3 py-3.5 px-6 bg-[#9e6d3b] hover:bg-[#855a2f] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+              disabled={isLoading} // <-- TAMBAHKAN INI
+              className={`w-full mt-3 py-3.5 px-6 bg-[#9e6d3b] hover:bg-[#855a2f] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] ${
+                isLoading ? "opacity-75 cursor-not-allowed" : ""
+              }`}
             >
-              <ArrowRight className="w-4 h-4" />
-              <span>
-                {isRegistering ? "Daftar Akun Sekarang" : "Masuk ke Sistem"}
-              </span>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Memeriksa Akun...</span>
+                </>
+              ) : (
+                <>
+                  <ArrowRight className="w-4 h-4" />
+                  <span>
+                    {isRegistering ? "Daftar Akun Sekarang" : "Masuk ke Sistem"}
+                  </span>
+                </>
+              )}
             </button>
           </form>
 
