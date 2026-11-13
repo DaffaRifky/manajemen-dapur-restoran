@@ -11,6 +11,7 @@ import {
   X,
   CreditCard,
   Banknote,
+  History,
 } from "lucide-react";
 
 export default function CashierDashboard({
@@ -29,7 +30,6 @@ export default function CashierDashboard({
   );
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
-  // Pilihan Avatar
   const avatarList = [
     {
       id: 1,
@@ -47,12 +47,12 @@ export default function CashierDashboard({
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-  // State Modal Pembayaran (Cash/Non-Tunai & Kembalian)
+  // State Modal Pembayaran & Barcode QRIS
   const [selectedOrderForPayment, setSelectedOrderForPayment] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("cash"); // 'cash' atau 'non-cash'
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [cashGiven, setCashGiven] = useState("");
 
-  // State Uang Modal Kasir (Receh) sesuai panduan poin 10
+  // State Uang Modal Kasir (Receh)
   const [modalDenominations, setModalDenominations] = useState([
     { nominal: 100000, qty: 2 },
     { nominal: 10000, qty: 3 },
@@ -60,11 +60,11 @@ export default function CashierDashboard({
   const [inputNominal, setInputNominal] = useState("");
   const [inputQty, setInputQty] = useState("");
 
-  // State Hitung Kas Akhir & Posting Harian (poin 8 & 10)
+  // State Hitung Kas Akhir & Posting Harian
   const [cashInDrawer, setCashInDrawer] = useState("");
   const [postedData, setPostedData] = useState([]);
 
-  // Kamus 2 Bahasa (Indonesia & English) sesuai panduan poin 9
+  // Kamus 2 Bahasa
   const t = {
     id: {
       roleTitle: "Dashboard Kasir",
@@ -78,6 +78,7 @@ export default function CashierDashboard({
       notaMenunggu: "Nota Menunggu Pembayaran",
       penjualanHariIni: "Total Penjualan Hari Ini",
       tabelTransaksi: "Tabel Transaksi Aktif",
+      riwayatTransaksi: "Riwayat Transaksi (Lunas)",
       meja: "Meja & Pelanggan",
       menu: "Detail Pesanan",
       total: "Total Harga",
@@ -117,6 +118,7 @@ export default function CashierDashboard({
       notaMenunggu: "Pending Bills",
       penjualanHariIni: "Today's Total Sales",
       tabelTransaksi: "Active Transaction Table",
+      riwayatTransaksi: "Transaction History (Paid)",
       meja: "Table & Customer",
       menu: "Order Details",
       total: "Total Price",
@@ -148,7 +150,6 @@ export default function CashierDashboard({
 
   const dict = t[lang];
 
-  // Hitung Total Uang Modal (Receh)
   const totalModalAmount = modalDenominations.reduce(
     (acc, item) => acc + item.nominal * item.qty,
     0,
@@ -172,12 +173,12 @@ export default function CashierDashboard({
     setInputQty("");
   };
 
-  // Filter pesanan yang belum lunas
   const pendingOrders = orders.filter(
     (o) => o.status !== "Sudah Dibayar" && o.status !== "Paid",
   );
 
-  // Proses Konfirmasi Pembayaran
+  const paidOrders = orders.filter((o) => o.status === "Sudah Dibayar");
+
   const handleConfirmPayment = () => {
     if (!selectedOrderForPayment) return;
 
@@ -187,7 +188,8 @@ export default function CashierDashboard({
           ? {
               ...o,
               status: "Sudah Dibayar",
-              paymentMethod: paymentMethod,
+              paymentMethod:
+                paymentMethod === "cash" ? "Tunai" : "Non-Tunai (QRIS)",
               paidAt: new Date().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -205,8 +207,6 @@ export default function CashierDashboard({
     setCashGiven("");
   };
 
-  // Total Penjualan Hari Ini dari pesanan lunas
-  const paidOrders = orders.filter((o) => o.status === "Sudah Dibayar");
   const totalSalesToday = paidOrders.reduce(
     (sum, o) => sum + (o.total || 0),
     0,
@@ -222,7 +222,6 @@ export default function CashierDashboard({
     setTimeout(() => setShowToast(false), 3000);
   };
 
-  // Sesuai panduan poin 8: Posting harian memindahkan data ke tabel rekap penjualan
   const handlePostingHarian = () => {
     if (paidOrders.length === 0) {
       setToastMessage(
@@ -246,7 +245,7 @@ export default function CashierDashboard({
 
   return (
     <div className="h-screen w-full flex bg-[#f1f5f9] font-sans text-slate-800 select-none overflow-hidden relative">
-      {/* MODAL PEMBAYARAN & KEMBALIAN (Poin 8) */}
+      {/* MODAL PEMBAYARAN & BARCODE QRIS BESAR */}
       {selectedOrderForPayment && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
@@ -306,8 +305,28 @@ export default function CashierDashboard({
                 </div>
               </div>
 
+              {/* BARCODE QRIS DIPERBESAR (w-40 h-40) */}
+              {paymentMethod === "non-cash" && (
+                <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-center animate-in fade-in duration-200">
+                  <p className="font-extrabold text-slate-800 text-xs">
+                    Scan QRIS untuk Pembayaran Non-Tunai
+                  </p>
+                  <div className="bg-white p-3 rounded-xl shadow-xs border border-slate-200">
+                    <img
+                      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=RESTO-POS-PAYMENT"
+                      alt="QRIS Barcode"
+                      className="w-40 h-40 object-contain mx-auto"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-medium">
+                    Silakan scan menggunakan aplikasi Mobile Banking atau
+                    E-Wallet
+                  </p>
+                </div>
+              )}
+
               {paymentMethod === "cash" && (
-                <div className="space-y-1">
+                <div className="space-y-1 animate-in fade-in duration-200">
                   <label className="font-bold text-slate-700">
                     {dict.uangDiterima}
                   </label>
@@ -495,7 +514,6 @@ export default function CashierDashboard({
           </h1>
 
           <div className="flex items-center gap-4">
-            {/* AVATAR PROFIL KASIR */}
             <div
               onClick={() => setIsAvatarModalOpen(true)}
               className="flex items-center gap-3 bg-slate-50 hover:bg-amber-50/60 border border-slate-200/80 hover:border-amber-300 px-3.5 py-1.5 rounded-2xl shadow-xs cursor-pointer transition-all group"
@@ -520,7 +538,6 @@ export default function CashierDashboard({
               </div>
             </div>
 
-            {/* PILIHAN BAHASA (Poin 9) */}
             <div className="relative">
               <button
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
@@ -567,7 +584,7 @@ export default function CashierDashboard({
         </header>
 
         <div className="p-8 max-w-7xl w-full mx-auto space-y-6">
-          {/* MENU 1: RINGKASAN */}
+          {/* MENU 1: RINGKASAN & RIWAYAT TRANSAKSI */}
           {activeMenu === "ringkasan" && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -590,6 +607,7 @@ export default function CashierDashboard({
                 </div>
               </div>
 
+              {/* TABEL TRANSAKSI AKTIF */}
               <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                 <h3 className="text-sm font-extrabold text-slate-900">
                   {dict.tabelTransaksi}
@@ -606,17 +624,17 @@ export default function CashierDashboard({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
-                      {orders.length === 0 ? (
+                      {pendingOrders.length === 0 ? (
                         <tr>
                           <td
                             colSpan="5"
-                            className="py-8 text-center text-slate-400"
+                            className="py-6 text-center text-slate-400"
                           >
                             {dict.belumAdaData}
                           </td>
                         </tr>
                       ) : (
-                        orders.map((ord) => (
+                        pendingOrders.map((ord) => (
                           <tr key={ord.id} className="hover:bg-slate-50/50">
                             <td className="py-3 font-bold text-slate-900">
                               Meja {ord.table} — {ord.customer}
@@ -633,27 +651,76 @@ export default function CashierDashboard({
                               Rp {ord.total?.toLocaleString("id-ID")}
                             </td>
                             <td className="py-3">
-                              {ord.status === "Sudah Dibayar" ? (
-                                <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-emerald-200">
-                                  Lunas ({ord.paymentMethod})
-                                </span>
-                              ) : (
-                                <span className="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-amber-200">
-                                  {ord.status || "Menunggu Pembayaran"}
-                                </span>
-                              )}
+                              <span className="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-amber-200">
+                                {ord.status || "Siap Diambil"}
+                              </span>
                             </td>
                             <td className="py-3 text-right">
-                              {ord.status !== "Sudah Dibayar" && (
-                                <button
-                                  onClick={() =>
-                                    setSelectedOrderForPayment(ord)
-                                  }
-                                  className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs cursor-pointer transition-colors"
-                                >
-                                  {dict.btnBayar}
-                                </button>
-                              )}
+                              <button
+                                onClick={() => setSelectedOrderForPayment(ord)}
+                                className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs cursor-pointer transition-colors"
+                              >
+                                {dict.btnBayar}
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* TABEL BARU: RIWAYAT TRANSAKSI (YANG SUDAH LUNAS) */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+                <div className="flex items-center gap-2">
+                  <History className="w-4 h-4 text-amber-600" />
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    {dict.riwayatTransaksi}
+                  </h3>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                        <th className="pb-3">{dict.meja}</th>
+                        <th className="pb-3">{dict.menu}</th>
+                        <th className="pb-3">{dict.total}</th>
+                        <th className="pb-3">Metode Bayar</th>
+                        <th className="pb-3">Waktu Lunas</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
+                      {paidOrders.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan="5"
+                            className="py-6 text-center text-slate-400"
+                          >
+                            {dict.belumAdaData}
+                          </td>
+                        </tr>
+                      ) : (
+                        paidOrders.map((ord) => (
+                          <tr key={ord.id} className="hover:bg-slate-50/50">
+                            <td className="py-3 font-bold text-slate-900">
+                              Meja {ord.table} — {ord.customer}
+                            </td>
+                            <td className="py-3 text-slate-500">
+                              {ord.items
+                                ?.map((i) => `${i.name} ×${i.qty}`)
+                                .join(", ")}
+                            </td>
+                            <td className="py-3 font-bold text-slate-900">
+                              Rp {ord.total?.toLocaleString("id-ID")}
+                            </td>
+                            <td className="py-3">
+                              <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold border border-emerald-200">
+                                {ord.paymentMethod || "Tunai"}
+                              </span>
+                            </td>
+                            <td className="py-3 text-slate-500 font-medium">
+                              {ord.paidAt || "Hari ini"}
                             </td>
                           </tr>
                         ))
@@ -665,7 +732,7 @@ export default function CashierDashboard({
             </div>
           )}
 
-          {/* MENU 2: UANG MODAL KASIR (RECEH) - Sesuai poin 10 */}
+          {/* MENU 2: UANG MODAL KASIR (RECEH) */}
           {activeMenu === "uang-modal" && (
             <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6">
               <h3 className="text-sm font-extrabold text-slate-900">
@@ -720,7 +787,7 @@ export default function CashierDashboard({
             </div>
           )}
 
-          {/* MENU 3: HITUNG KAS AKHIR - Sesuai poin 10 */}
+          {/* MENU 3: HITUNG KAS AKHIR */}
           {activeMenu === "hitung-kas" && (
             <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6 max-w-xl">
               <h3 className="text-sm font-extrabold text-slate-900">
@@ -752,7 +819,7 @@ export default function CashierDashboard({
             </div>
           )}
 
-          {/* MENU 4: POSTING HARIAN - Sesuai poin 8 */}
+          {/* MENU 4: POSTING HARIAN */}
           {activeMenu === "posting-harian" && (
             <div className="space-y-6">
               <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
