@@ -3,13 +3,14 @@ import LandingPage from "./LandingPage";
 import Login from "./Login";
 import WaiterDashboard from "./WaiterDashboard";
 import ChefDashboard from "./ChefDashboard";
+import CashierDashboard from "./CashierDashboard"; // <-- Impor Dashboard Kasir
 import PesanMenu from "./PesanMenu";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("landing");
   const [loggedInUser, setLoggedInUser] = useState("csdc");
 
-  // State Pesanan Bersama (Shared State antara Pelanggan, Waiter & Chef)
+  // State Pesanan Bersama (Shared State antara Pelanggan, Waiter, Chef & Kasir)
   const [orders, setOrders] = useState([]);
 
   // State menuList 40 Menu untuk Sinkronisasi Ketersediaan Menu
@@ -379,13 +380,14 @@ export default function App() {
     },
   ]);
 
-  // Sinkronisasi otomatis URL browser berdasarkan state currentPage dengan format nama role masing-masing
+  // Sinkronisasi otomatis URL browser berdasarkan state currentPage
   useEffect(() => {
     let path = "/landingpage";
     if (currentPage === "pesanmenu") path = "/pesanmenu";
     else if (currentPage === "login") path = "/login";
     else if (currentPage === "waiter-dashboard") path = "/dashboardwaiter";
     else if (currentPage === "chef-dashboard") path = "/dashboardkoki";
+    else if (currentPage === "cashier-dashboard") path = "/dashboardkasir";
 
     window.history.pushState({ page: currentPage }, "", path);
   }, [currentPage]);
@@ -399,6 +401,8 @@ export default function App() {
       setCurrentPage("waiter-dashboard");
     } else if (lowerRole === "chef" || lowerRole === "koki") {
       setCurrentPage("chef-dashboard");
+    } else if (lowerRole === "kasir" || lowerRole === "cashier") {
+      setCurrentPage("cashier-dashboard"); // <-- Mengarahkan ke Dashboard Kasir
     } else {
       alert(
         `Login berhasil sebagai [${role.toUpperCase()}]. Dashboard untuk role ini sedang dalam pengembangan.`,
@@ -445,6 +449,15 @@ export default function App() {
 
       {currentPage === "chef-dashboard" && (
         <ChefDashboard
+          username={loggedInUser}
+          orders={orders}
+          setOrders={setOrders}
+          onLogout={() => setCurrentPage("landing")}
+        />
+      )}
+
+      {currentPage === "cashier-dashboard" && (
+        <CashierDashboard
           username={loggedInUser}
           orders={orders}
           setOrders={setOrders}
