@@ -30,6 +30,7 @@ export default function PesanMenu({
   // Form Pelanggan
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+  const [customerAddress, setCustomerAddress] = useState(""); // <-- TAMBAHKAN INI
   const [paymentMethod, setPaymentMethod] = useState("QRIS");
   const [orderNote, setOrderNote] = useState("");
 
@@ -850,6 +851,7 @@ export default function PesanMenu({
 
                 <form onSubmit={handleCheckout} className="space-y-4 pt-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Input Alamat Pengiriman / Meja */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         {orderType === "dinein"
@@ -858,41 +860,70 @@ export default function PesanMenu({
                       </label>
                       <input
                         type="text"
-                        readOnly={orderType === "dinein"}
                         value={
-                          orderType === "dinein" ? selectedTable : customerPhone
+                          orderType === "dinein"
+                            ? selectedTable
+                            : customerAddress
                         }
-                        onChange={(e) => setCustomerPhone(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-800 focus:outline-none"
+                        onChange={(e) => {
+                          if (orderType === "dinein") {
+                            setSelectedTable(e.target.value);
+                          } else {
+                            setCustomerAddress(e.target.value);
+                          }
+                        }}
+                        disabled={orderType === "dinein"}
+                        placeholder={
+                          orderType === "dinein"
+                            ? ""
+                            : "Masukkan alamat lengkap"
+                        }
+                        className={`w-full border rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none ${
+                          orderType === "dinein"
+                            ? "bg-slate-100 border-slate-200 text-slate-600 cursor-not-allowed"
+                            : "bg-slate-50 border-slate-200 focus:border-blue-500"
+                        }`}
                       />
                     </div>
 
+                    {/* Input Nama Pelanggan */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         Nama pelanggan
                       </label>
                       <input
                         type="text"
-                        required
-                        placeholder="Nama Anda"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-500"
+                        placeholder="Nama Anda"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
                       />
                     </div>
 
+                    {/* Input Nomor Telepon (Wajib, Hanya Angka, Tidak Bisa Huruf) */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                        Nomor telepon (opsional)
+                        Nomor telepon <span className="text-red-500">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="tel"
+                        inputMode="numeric"
+                        required
                         value={customerPhone}
-                        onChange={(e) => setCustomerPhone(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-500"
+                        onChange={(e) => {
+                          // Hanya izinkan angka (0-9), huruf otomatis dibuang
+                          const numericValue = e.target.value.replace(
+                            /\D/g,
+                            "",
+                          );
+                          setCustomerPhone(numericValue);
+                        }}
+                        placeholder="Wajib hanya angka, Contoh 081234567890"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
                       />
                     </div>
 
+                    {/* Input Metode Bayar */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1.5">
                         Metode bayar
@@ -909,27 +940,55 @@ export default function PesanMenu({
                     </div>
                   </div>
 
+                  {/* Kotak Barcode QRIS yang Tampil Otomatis */}
+                  {paymentMethod === "QRIS" && (
+                    <div className="bg-amber-50/60 border border-amber-200 p-5 rounded-2xl flex flex-col items-center justify-center space-y-3 animate-in fade-in duration-300">
+                      <div className="text-center space-y-0.5">
+                        <p className="text-xs font-extrabold text-amber-900">
+                          Scan QRIS untuk Pembayaran
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          Gunakan GoPay, OVO, DANA, BCA Mobile, atau Mobile
+                          Banking lainnya
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-3 rounded-xl border border-amber-300 shadow-xs">
+                        <img
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=QRIS-RESTO-SIMULASI-PEMBAYARAN"
+                          alt="Barcode QRIS"
+                          className="w-36 h-36 object-contain mx-auto"
+                        />
+                      </div>
+
+                      <div className="text-center">
+                        <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+                          Total: Rp {grandTotal.toLocaleString("id-ID")}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Catatan untuk Dapur */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1.5">
                       Catatan untuk dapur
                     </label>
                     <textarea
                       rows={2}
-                      placeholder="Contoh: tidak pakai pedas"
+                      placeholder="Contoh: tidak pakai pedas dll..."
                       value={orderNote}
                       onChange={(e) => setOrderNote(e.target.value)}
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500 resize-none"
                     />
                   </div>
 
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      className="w-full bg-[#121929] hover:bg-slate-800 text-white font-extrabold text-xs py-4 rounded-xl shadow-md transition-all cursor-pointer"
-                    >
-                      Kirim pesanan
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-[#121929] hover:bg-slate-800 text-white font-black text-xs py-3.5 rounded-2xl shadow-md transition-all cursor-pointer mt-4"
+                  >
+                    {lang === "ID" ? "Kirim pesanan" : "Send order"}
+                  </button>
                 </form>
               </div>
             </div>
