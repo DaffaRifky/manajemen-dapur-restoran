@@ -24,6 +24,7 @@ export default function WaiterDashboard({
   const [activeMenu, setActiveMenu] = useState("ringkasan");
   const [lang, setLang] = useState("id");
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  
 
   // State Avatar Profil Waiter
   const [avatar, setAvatar] = useState(
@@ -534,54 +535,76 @@ export default function WaiterDashboard({
     return cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
   };
 
-  const handleSendToKitchen = () => {
-    if (!selectedTable) {
-      setToastMessage(
-        lang === "id"
-          ? "Silakan pilih nomor meja!"
-          : "Please select a table number!",
-      );
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
-      return;
-    }
-    if (cartItems.length === 0) {
-      setToastMessage(
-        lang === "id"
-          ? "Keranjang pesanan masih kosong!"
-          : "Order cart is still empty!",
-      );
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
-      return;
-    }
-
-    const newOrder = {
-      id: Date.now(),
-      table: selectedTable,
-      customer: customerName || (lang === "id" ? "Pelanggan" : "Customer"),
-      items: [...cartItems],
-      notes: orderNotes || "-",
-      total: calculateTotal(),
-      status: dict.statusDiprosesDapur,
-      elapsedMinutes: 0,
-    };
-
-    setOrders((prev) => [newOrder, ...prev]);
+const handleSendToKitchen = () => {
+  if (!selectedTable) {
     setToastMessage(
       lang === "id"
-        ? "Pesanan berhasil terkirim ke dapur"
-        : "Order sent to kitchen successfully",
+        ? "Silakan pilih nomor meja!"
+        : "Please select a table number!",
     );
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
+    return;
+  }
 
-    setCartItems([]);
-    setSelectedTable(null);
-    setCustomerName("");
-    setOrderNotes("");
-    setActiveMenu("ringkasan");
+  // Validasi tambahan: Pastikan meja belum terisi oleh pesanan aktif
+  const isOccupied = orders.some(
+    (o) =>
+      Number(o.table) === Number(selectedTable) &&
+      o.status !== dict.statusSudahTersaji &&
+      o.status !== "Sudah tersaji" &&
+      o.status !== "Served" &&
+      o.status !== "Selesai",
+  );
+
+  if (isOccupied) {
+    setToastMessage(
+      lang === "id"
+        ? `Maaf, Meja ${selectedTable} sedang terisi!`
+        : `Sorry, Table ${selectedTable} is currently occupied!`,
+    );
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+    return;
+  }
+
+  if (cartItems.length === 0) {
+    setToastMessage(
+      lang === "id"
+        ? "Keranjang pesanan masih kosong!"
+        : "Order cart is still empty!",
+    );
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+    return;
+  }
+
+  const newOrder = {
+    id: Date.now(),
+    table: selectedTable,
+    customer: customerName || (lang === "id" ? "Pelanggan" : "Customer"),
+    items: [...cartItems],
+    notes: orderNotes || "-",
+    total: calculateTotal(),
+    status: dict.statusDiprosesDapur,
+    elapsedMinutes: 0,
   };
+
+  setOrders((prev) => [newOrder, ...prev]);
+  setToastMessage(
+    lang === "id"
+      ? "Pesanan berhasil terkirim ke dapur"
+      : "Order sent to kitchen successfully",
+  );
+  setShowToast(true);
+  setTimeout(() => setShowToast(false), 3000);
+
+  setCartItems([]);
+  setSelectedTable(null);
+  setCustomerName("");
+  setOrderNotes("");
+  setActiveMenu("ringkasan");
+};
 
   const handleServeOrder = (orderId) => {
     setOrders((prev) =>
@@ -833,13 +856,21 @@ export default function WaiterDashboard({
                             if (!tableOrder) {
                               setSelectedTable(tableNum);
                               setActiveMenu("pesanan-baru");
+                            } else {
+                              setToastMessage(
+                                lang === "id"
+                                  ? `Meja ${tableNum} sedang terisi!`
+                                  : `Table ${tableNum} is currently occupied!`,
+                              );
+                              setShowToast(true);
+                              setTimeout(() => setShowToast(false), 2500);
                             }
                           }}
                           className={`border-2 p-4 rounded-xl text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-1 group ${
                             isReady
-                              ? "border-emerald-500 bg-emerald-50/60"
+                              ? "border-emerald-500 bg-emerald-50/60 shadow-xs"
                               : tableOrder
-                                ? "border-amber-400 bg-amber-50/50"
+                                ? "border-amber-400 bg-amber-50/50 opacity-90 cursor-not-allowed"
                                 : "border-dashed border-slate-300 hover:border-amber-600 bg-slate-50/50 hover:bg-amber-50/30"
                           }`}
                         >
@@ -938,28 +969,28 @@ export default function WaiterDashboard({
                 ) : (
                   <div className="space-y-3">
                     {orders.map((ord) => {
-                     let badgeColor =
-                       "bg-slate-100 text-slate-800 font-black border border-slate-200";
+                      let badgeColor =
+                        "bg-slate-100 text-slate-800 font-black border border-slate-200";
 
-                     const isReadyStatus =
-                       ord.status === "Siap Diambil" ||
-                       ord.status === "Siap diambil" ||
-                       ord.status === "Ready to serve" ||
-                       ord.status === dict.statusSiap;
+                      const isReadyStatus =
+                        ord.status === "Siap Diambil" ||
+                        ord.status === "Siap diambil" ||
+                        ord.status === "Ready to serve" ||
+                        ord.status === dict.statusSiap;
 
-                     const isServedStatus =
-                       ord.status === "Sudah Tersaji" ||
-                       ord.status === "Sudah tersaji" ||
-                       ord.status === "Served" ||
-                       ord.status === dict.statusSudahTersaji;
+                      const isServedStatus =
+                        ord.status === "Sudah Tersaji" ||
+                        ord.status === "Sudah tersaji" ||
+                        ord.status === "Served" ||
+                        ord.status === dict.statusSudahTersaji;
 
-                     if (isReadyStatus) {
-                       badgeColor =
-                         "bg-amber-100 text-amber-800 font-black border border-amber-300 shadow-xs"; // Kuning / Amber
-                     } else if (isServedStatus) {
-                       badgeColor =
-                         "bg-emerald-100 text-emerald-800 font-black border border-emerald-300 shadow-xs"; // Hijau / Emerald
-                     }
+                      if (isReadyStatus) {
+                        badgeColor =
+                          "bg-amber-100 text-amber-800 font-black border border-amber-300 shadow-xs"; // Kuning / Amber
+                      } else if (isServedStatus) {
+                        badgeColor =
+                          "bg-emerald-100 text-emerald-800 font-black border border-emerald-300 shadow-xs"; // Hijau / Emerald
+                      }
                       // Konversi tampilan status pesanan di card agar mengikuti bahasa aktif
                       let displayStatus = ord.status;
                       if (
@@ -1164,20 +1195,78 @@ export default function WaiterDashboard({
                   <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
                     {dict.nomorMeja}
                   </label>
-                  <div className="grid grid-cols-5 gap-2">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((tableNum) => (
-                      <button
-                        key={tableNum}
-                        onClick={() => setSelectedTable(tableNum)}
-                        className={`py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                          selectedTable === tableNum
-                            ? "bg-amber-500 text-white shadow-xs"
-                            : "bg-slate-50 border border-slate-200/80 text-slate-700 hover:bg-slate-100"
-                        }`}
-                      >
-                        {tableNum}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((tableNum) => {
+                      // Pencarian pesanan aktif yang lebih aman (menggunakan String() agar tidak luput dari perbedaan tipe data)
+                      const tableOrder = orders.find(
+                        (o) =>
+                          String(o.table) === String(tableNum) &&
+                          o.status !== dict.statusSudahTersaji &&
+                          o.status !== "Sudah tersaji" &&
+                          o.status !== "Served" &&
+                          o.status !== "Selesai",
+                      );
+
+                      const isReady =
+                        tableOrder &&
+                        (tableOrder.status === dict.statusSiap ||
+                          tableOrder.status === "Siap diambil" ||
+                          tableOrder.status === "Ready to serve");
+
+                      return (
+                        <div
+                          key={tableNum}
+                          onClick={() => {
+                            if (!tableOrder) {
+                              setSelectedTable(tableNum);
+                              setActiveMenu("pesanan-baru");
+                            } else {
+                              setToastMessage(
+                                lang === "id"
+                                  ? `Meja ${tableNum} sedang terisi!`
+                                  : `Table ${tableNum} is currently occupied!`,
+                              );
+                              setShowToast(true);
+                              setTimeout(() => setShowToast(false), 2500);
+                            }
+                          }}
+                          className={`border-2 p-4 rounded-xl text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-1 group ${
+                            isReady
+                              ? "border-emerald-500 bg-emerald-50/60 shadow-xs"
+                              : tableOrder
+                                ? "border-amber-400 bg-amber-50/50 opacity-90 shadow-xs"
+                                : "border-dashed border-slate-300 hover:border-amber-600 bg-slate-50/50 hover:bg-amber-50/30"
+                          }`}
+                        >
+                          <span
+                            className={`text-base font-black ${
+                              isReady
+                                ? "text-emerald-800"
+                                : tableOrder
+                                  ? "text-amber-900"
+                                  : "text-slate-800"
+                            }`}
+                          >
+                            {tableNum}
+                          </span>
+                          <span
+                            className={`text-[11px] font-bold ${
+                              isReady
+                                ? "text-emerald-700"
+                                : tableOrder
+                                  ? "text-amber-700"
+                                  : "text-slate-400"
+                            }`}
+                          >
+                            {isReady
+                              ? dict.statusSiap
+                              : tableOrder
+                                ? tableOrder.customer // Menampilkan nama pelanggan (misal: tere)
+                                : dict.statusKosong}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
