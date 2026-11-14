@@ -938,23 +938,28 @@ export default function WaiterDashboard({
                 ) : (
                   <div className="space-y-3">
                     {orders.map((ord) => {
-                      let badgeColor = "bg-amber-200/80 text-amber-900";
-                      const isReadyStatus =
-                        ord.status === "Siap diambil" ||
-                        ord.status === "Ready to serve" ||
-                        ord.status === dict.statusSiap;
-                      const isServedStatus =
-                        ord.status === "Sudah tersaji" ||
-                        ord.status === "Served" ||
-                        ord.status === dict.statusSudahTersaji;
+                     let badgeColor =
+                       "bg-slate-100 text-slate-800 font-black border border-slate-200";
 
-                      if (isReadyStatus) {
-                        badgeColor = "bg-amber-100 text-amber-800 font-black";
-                      } else if (isServedStatus) {
-                        badgeColor =
-                          "bg-emerald-100 text-emerald-800 font-black";
-                      }
+                     const isReadyStatus =
+                       ord.status === "Siap Diambil" ||
+                       ord.status === "Siap diambil" ||
+                       ord.status === "Ready to serve" ||
+                       ord.status === dict.statusSiap;
 
+                     const isServedStatus =
+                       ord.status === "Sudah Tersaji" ||
+                       ord.status === "Sudah tersaji" ||
+                       ord.status === "Served" ||
+                       ord.status === dict.statusSudahTersaji;
+
+                     if (isReadyStatus) {
+                       badgeColor =
+                         "bg-amber-100 text-amber-800 font-black border border-amber-300 shadow-xs"; // Kuning / Amber
+                     } else if (isServedStatus) {
+                       badgeColor =
+                         "bg-emerald-100 text-emerald-800 font-black border border-emerald-300 shadow-xs"; // Hijau / Emerald
+                     }
                       // Konversi tampilan status pesanan di card agar mengikuti bahasa aktif
                       let displayStatus = ord.status;
                       if (
