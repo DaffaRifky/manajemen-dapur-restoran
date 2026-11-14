@@ -397,58 +397,75 @@ export default function PesanMenu({
   };
 
   const grandTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+const occupiedTables = orders
+  .filter(
+    (o) =>
+      o.type === "Dine In" &&
+      o.status !== "Selesai" &&
+      o.status !== "Sudah tersaji",
+  )
+  .map((o) => String(o.table));
+ const handleCheckout = (e) => {
+   e.preventDefault();
 
-  const handleCheckout = (e) => {
-    e.preventDefault();
-    if (cart.length === 0) {
-      alert(
-        lang === "ID"
-          ? "Keranjang masih kosong! Silakan pilih menu terlebih dahulu."
-          : "Cart is empty!",
-      );
-      return;
-    }
+   // Validasi tambahan: Cegah jika meja yang dipilih ternyata sudah terisi
+   if (orderType === "dinein") {
+     const tableNum = selectedTable.replace("Meja ", "");
+     if (occupiedTables.includes(tableNum)) {
+       alert(
+         `Maaf, ${selectedTable} sedang digunakan oleh pelanggan lain! Silakan pilih meja lain.`,
+       );
+       return;
+     }
+   }
 
-    // Format Objek Pesanan yang 100% cocok dengan ChefDashboard.jsx
-    const newOrder = {
-      id: Date.now(),
-      table:
-        orderType === "dinein"
-          ? selectedTable.replace("Meja ", "")
-          : "Takeaway",
-      customer: customerName || "Pelanggan",
-      phone: customerPhone || "-",
-      type: orderType === "dinein" ? "Dine In" : "Takeaway",
-      items: cart.map((item) => ({
-        name: item.name,
-        qty: item.qty,
-        price: item.price,
-        note: orderNote || "-",
-      })),
-      total: grandTotal,
-      payment: paymentMethod,
-      notes: orderNote || "-", // Sesuai dengan pembacaan 'ord.notes' di ChefDashboard
-      status: "Diproses Dapur", // STATUS INI WAJIB SAMA AGAR MASUK KE ANTRIAN DAPUR KOKI
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      elapsedMinutes: 0,
-    };
+   if (cart.length === 0) {
+     alert(
+       lang === "ID"
+         ? "Keranjang masih kosong! Silakan pilih menu terlebih dahulu."
+         : "Cart is empty!",
+     );
+     return;
+   }
 
-    // Mengirim pesanan ke state global App.jsx
-    setOrders((prevOrders) => [newOrder, ...prevOrders]);
+   // Format Objek Pesanan yang 100% cocok dengan ChefDashboard.jsx
+   const newOrder = {
+     id: Date.now(),
+     table:
+       orderType === "dinein" ? selectedTable.replace("Meja ", "") : "Takeaway",
+     customer: customerName || "Pelanggan",
+     phone: customerPhone || "-",
+     type: orderType === "dinein" ? "Dine In" : "Takeaway",
+     items: cart.map((item) => ({
+       name: item.name,
+       qty: item.qty,
+       price: item.price,
+       note: orderNote || "-",
+     })),
+     total: grandTotal,
+     payment: paymentMethod,
+     notes: orderNote || "-", // Sesuai dengan pembacaan 'ord.notes' di ChefDashboard
+     status: "Diproses Dapur", // STATUS INI WAJIB SAMA AGAR MASUK KE ANTRIAN DAPUR KOKI
+     time: new Date().toLocaleTimeString([], {
+       hour: "2-digit",
+       minute: "2-digit",
+     }),
+     elapsedMinutes: 0,
+   };
 
-    alert(
-      lang === "ID"
-        ? "Pesanan berhasil dikirim ke Dapur Koki!"
-        : "Order sent to Kitchen!",
-    );
+   // Mengirim pesanan ke state global App.jsx
+   setOrders((prevOrders) => [newOrder, ...prevOrders]);
 
-    // Mengosongkan keranjang & beralih ke tab Pesanan Saya
-    setCart([]);
-    setActiveNav("pesananku");
-  };
+   alert(
+     lang === "ID"
+       ? "Pesanan berhasil dikirim ke Dapur Koki!"
+       : "Order sent to Kitchen!",
+   );
+
+   // Mengosongkan keranjang & beralih ke tab Pesanan Saya
+   setCart([]);
+   setActiveNav("pesananku");
+ };
 
   const filteredMenu = menu40Items.filter((item) => {
     const matchesCat =
@@ -636,25 +653,36 @@ export default function PesanMenu({
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                      <button
-                        key={num}
-                        onClick={() => {
-                          setSelectedTable(`Meja ${num}`);
-                          setOrderType("dinein");
-                          setActiveNav("pesan-menu");
-                        }}
-                        className={`border border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer flex flex-col items-center justify-center ${
-                          selectedTable === `Meja ${num}`
-                            ? "border-blue-500 bg-blue-50/20 shadow-sm"
-                            : "border-slate-300 hover:border-slate-400 bg-white"
-                        }`}
-                      >
-                        <span className="text-base font-black text-slate-800">
-                          {num}
-                        </span>
-                      </button>
-                    ))}
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
+                      const isOccupied = occupiedTables.includes(String(num));
+                      return (
+                        <button
+                          key={num}
+                          disabled={isOccupied}
+                          onClick={() => {
+                            if (!isOccupied) {
+                              setSelectedTable(`Meja ${num}`);
+                              setOrderType("dinein");
+                              setActiveNav("pesan-menu");
+                            }
+                          }}
+                          className={`border rounded-2xl p-4 text-center transition-all flex flex-col items-center justify-center ${
+                            isOccupied
+                              ? "bg-rose-50 border-rose-300 text-rose-700 cursor-not-allowed opacity-80"
+                              : selectedTable === `Meja ${num}`
+                                ? "border-blue-500 bg-blue-50/20 shadow-sm cursor-pointer"
+                                : "border-slate-300 hover:border-slate-400 bg-white cursor-pointer"
+                          }`}
+                        >
+                          <span className="text-sm font-black">Meja {num}</span>
+                          <span
+                            className={`text-[10px] font-bold mt-1 ${isOccupied ? "text-rose-600" : "text-emerald-600"}`}
+                          >
+                            {isOccupied ? "🔴 Terisi" : "🟢 Tersedia"}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -744,11 +772,21 @@ export default function PesanMenu({
                         onChange={(e) => setSelectedTable(e.target.value)}
                         className="bg-white border border-slate-200 rounded-full px-4 py-2.5 text-xs font-bold text-slate-800 focus:outline-none shadow-sm appearance-none pr-8 cursor-pointer"
                       >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                          <option key={num} value={`Meja ${num}`}>
-                            Meja {num}
-                          </option>
-                        ))}
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
+                          const isOccupied = occupiedTables.includes(
+                            String(num),
+                          );
+                          return (
+                            <option
+                              key={num}
+                              value={`Meja ${num}`}
+                              disabled={isOccupied}
+                            >
+                              Meja {num}{" "}
+                              {isOccupied ? "(TERISI)" : "(Tersedia)"}
+                            </option>
+                          );
+                        })}
                       </select>
                       <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
@@ -935,7 +973,6 @@ export default function PesanMenu({
                       >
                         <option value="QRIS">QRIS</option>
                         <option value="Tunai">Tunai</option>
-                        <option value="Transfer bank">Transfer bank</option>
                       </select>
                     </div>
                   </div>
