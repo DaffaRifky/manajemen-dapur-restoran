@@ -178,6 +178,9 @@ export default function CashierDashboard({
   );
 
   const paidOrders = orders.filter((o) => o.status === "Sudah Dibayar");
+  // State Modal Struk Pembayaran
+const [selectedReceipt, setSelectedReceipt] = useState(null);
+const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
 
   const handleConfirmPayment = () => {
     if (!selectedOrderForPayment) return;
@@ -688,13 +691,14 @@ export default function CashierDashboard({
                         <th className="pb-3">{dict.total}</th>
                         <th className="pb-3">Metode Bayar</th>
                         <th className="pb-3">Waktu Lunas</th>
+                        <th className="pb-3 text-right">Struk</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
                       {paidOrders.length === 0 ? (
                         <tr>
                           <td
-                            colSpan="5"
+                            colSpan="6"
                             className="py-6 text-center text-slate-400"
                           >
                             {dict.belumAdaData}
@@ -722,6 +726,17 @@ export default function CashierDashboard({
                             <td className="py-3 text-slate-500 font-medium">
                               {ord.paidAt || "Hari ini"}
                             </td>
+                            <td className="py-3 text-right">
+                              <button
+                                onClick={() => {
+                                  setSelectedReceipt(ord);
+                                  setIsReceiptModalOpen(true);
+                                }}
+                                className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-[11px] px-3 py-1.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center gap-1.5"
+                              >
+                                <span>🧾 Cetak Struk</span>
+                              </button>
+                            </td>
                           </tr>
                         ))
                       )}
@@ -731,7 +746,124 @@ export default function CashierDashboard({
               </div>
             </div>
           )}
+          {/* MODAL CETAK STRUK PEMBAYARAN */}
+          {/* MODAL CETAK STRUK PEMBAYARAN (VERSI LEBIH BAGUS & LENGKAP) */}
+          {isReceiptModalOpen && selectedReceipt && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
+              <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-sm w-full p-6 space-y-4 overflow-hidden relative">
+                {/* Tombol Tutup */}
+                <button
+                  onClick={() => setIsReceiptModalOpen(false)}
+                  className="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
 
+                {/* Header Struk */}
+                <div className="text-center space-y-1 pt-2">
+                  <div className="bg-amber-500 text-slate-950 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto font-black text-xl shadow-sm">
+                    🍽️
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 tracking-tight uppercase">
+                    RESTO POS SYSTEM
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Jl. Politeknik Negeri Batam
+                  </p>
+                  <div className="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-200 mt-1">
+                    ✓ LUNAS (PAID)
+                  </div>
+                </div>
+
+                {/* Informasi Transaksi */}
+                <div className="border-t border-dashed border-slate-200 pt-3 space-y-1.5 text-xs text-slate-600 font-medium bg-slate-50/50 p-3 rounded-2xl">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">No. Transaksi:</span>
+                    <span className="font-bold text-slate-900">
+                      #TRX-{selectedReceipt.id}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Nomor Meja:</span>
+                    <span className="font-bold text-slate-900">
+                      Meja {selectedReceipt.table}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Nama Pelanggan:</span>
+                    <span className="font-bold text-slate-900">
+                      {selectedReceipt.customer}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Waktu Bayar:</span>
+                    <span className="font-bold text-slate-900">
+                      {selectedReceipt.paidAt || "Baru Saja"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Daftar Item Pesanan (Detail dengan Harga Satuan) */}
+                <div className="border-t border-dashed border-slate-200 pt-3 space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    Detail Pesanan:
+                  </p>
+                  {selectedReceipt.items &&
+                    selectedReceipt.items.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex justify-between items-start text-xs"
+                      >
+                        <div className="space-y-0.5">
+                          <p className="font-bold text-slate-800">
+                            {item.name}
+                          </p>
+                          <p className="text-[11px] text-slate-400">
+                            Rp {item.price?.toLocaleString("id-ID")} ×{" "}
+                            {item.qty}
+                          </p>
+                        </div>
+                        <span className="font-extrabold text-slate-900">
+                          Rp {(item.price * item.qty).toLocaleString("id-ID")}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Rincian Total Pembayaran */}
+                <div className="border-t border-dashed border-slate-200 pt-3 space-y-2">
+                  <div className="flex justify-between items-center text-sm font-black text-slate-900 bg-amber-50/80 p-3 rounded-2xl border border-amber-100">
+                    <span className="text-amber-900">TOTAL AKHIR:</span>
+                    <span className="text-amber-700 text-base">
+                      Rp{" "}
+                      {selectedReceipt.total
+                        ? selectedReceipt.total.toLocaleString("id-ID")
+                        : "0"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-xs text-slate-500 px-1 pt-1">
+                    <span className="font-medium">Metode Pembayaran:</span>
+                    <span className="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
+                      {selectedReceipt.paymentMethod || "Tunai"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Tombol Cetak Fisik & Footer */}
+                <div className="pt-2 space-y-2">
+                  <button
+                    onClick={() => window.print()}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs py-3.5 rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>🖨️ Cetak / Print Struk Fisik</span>
+                  </button>
+                  <p className="text-center text-[10px] text-slate-400 pt-1 font-medium">
+                    Terima kasih atas kunjungan Anda di Resto POS! 🙏
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           {/* MENU 2: UANG MODAL KASIR (RECEH) */}
           {activeMenu === "uang-modal" && (
             <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6">
