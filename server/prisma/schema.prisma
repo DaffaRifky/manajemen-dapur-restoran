@@ -20,56 +20,59 @@ enum Role {
 }
 
 model Restaurant {
-  id Int @id @default(autoincrement())
-  ownerId String @db.Uuid
-  restaurantName String
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  owner   User   @relation("RestaurantOwner", fields: [ownerId], references: [id])
-
-  users   User[] @relation("RestaurantMembers")
+  users      User[]
   categories MenuCategory[]
-  menuItems MenuItem[]
+  menuItems  MenuItem[]
 }
 
 model User {
-  id    String     @id @db.Uuid
+  id           String   @id @db.Uuid // same as Supabase auth.users.id
   restaurantId Int
-  userName  String
-  email String  @unique
-  role Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  username     String   @unique
+  email        String   @unique
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  restaurant       Restaurant   @relation("RestaurantMembers", fields: [restaurantId], references: [id])
-  ownedRestaurants Restaurant[] @relation("RestaurantOwner")
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
   @@index([restaurantId])
 }
 
 model MenuCategory {
-  id  Int @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   restaurantId Int
-  categoryName  String  @unique
+  name         String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   menuItems  MenuItem[]
+
+  @@unique([restaurantId, name])
+  @@unique([id, restaurantId]) // target for MenuItem's composite foreign key
 }
 
 model MenuItem {
-  id  Int @id @default(autoincrement())
-  categoryId  Int
-  restaurantId  Int
-  menuName  String  @unique
+  id           Int      @id @default(autoincrement())
+  categoryId   Int
+  restaurantId Int
+  name         String
   description  String?
+  price        Decimal  @db.Decimal(10, 2)
   isAvailable  Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
-  category   MenuCategory    @relation(fields: [categoryId], references: [id])
+  restaurant Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  category   MenuCategory @relation(fields: [categoryId, restaurantId], references: [id, restaurantId], onDelete: NoAction)
 
+  @@unique([restaurantId, name])
   @@index([restaurantId, categoryId])
 }

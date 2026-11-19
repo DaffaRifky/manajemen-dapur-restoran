@@ -1,15 +1,20 @@
+
+
 export function InputField(props){
     return(
         <>
-        <label htmlFor={props.label} className={`text-${props.textColor}`}>{props.label}</label>
+        <label htmlFor={props.label} className={`text-${props.textColor}  text-sm `}>{props.label}</label>
         <input
             type={props.type}
             id={props.label}
             placeholder={props.placeholder}
+            required={props.required}
+            minLength={props.minLength}
             value={props.value}
             onChange={props.onChange}
-            className="border rounded-xl px-4 py-1.5 w-full bg-white mt-2 mb-4"
+            className={`border border-${props.textColor} rounded-lg px-4 py-2 w-full bg-white mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9e6d3b]/40 focus:border-[#9e6d3b] transition-all`}
         />
+        <label htmlFor={props.label} className="text-red-700 text-xs mb-3">{props.error}</label>
         </>
     )
 }

@@ -18,7 +18,7 @@ import Cashier from "../pages/owner/staff/cashierCRUD/cashier";
 
 // rute yang bisa diakses semua orang
 export const publicRoutes = [
-  { path: "/",  element: <Login /> },
+  { path: "/login",  element: <Login /> },
   { path: "/signup", element: <Signup />},
 ];
 

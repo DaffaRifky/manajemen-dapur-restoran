@@ -1,32 +1,19 @@
-import { prisma }from "./lib/client";
-import express, { type Express, type Request, type Response } from 'express';
+import express, {  type Request, type Response } from "express";
+import { prisma} from './lib/client';
+import { authRouter } from "./routes/auth";
 
-const app: Express = express();
-
-app.use(express.json());
-
-const tenant = await prisma.tenant.findMany({
-  select: {
-    tenantName: true
-  }
-})
-
-const menuItem = await prisma.menuItem.findMany({
-  select: {
-    menuName: true,
-    isAvailable: true
-  }
-})
-
-app.get('/', (req: Request, res: Response) => {
-  res.send({tenant, menuItem});
-});
-
-app.post('/post', (req: Request, res: Response) => {
-
-})
+const app = express();
 
 const PORT = 5000;
+app.use(express.json());
+app.use("/api/auth", authRouter);
+
+app.get("/" , async (req: Request, res: Response) => {
+  const user = await prisma.user.findMany();
+  const restaurant = await prisma.restaurant.findMany();
+  res.json({ user, restaurant });
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
