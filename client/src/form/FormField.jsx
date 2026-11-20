@@ -12,7 +12,7 @@ export function InputField(props){
             minLength={props.minLength}
             value={props.value}
             onChange={props.onChange}
-            className={`border border-${props.textColor} rounded-lg px-4 py-2 w-full bg-white mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9e6d3b]/40 focus:border-[#9e6d3b] transition-all`}
+            className={`border border-black rounded-lg px-4 py-2 w-full bg-white mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9e6d3b]/40 focus:border-[#9e6d3b] transition-all`}
         />
         <label htmlFor={props.label} className="text-red-700 text-xs mb-3">{props.error}</label>
         </>
@@ -28,6 +28,15 @@ export function SelectField(props){
                     <option key={value} value={value}>{value}</option>
                 ))}
             </select>
+        </div>
+    )
+}
+
+export function CheckboxField(props){
+    return(
+        <div className="flex flex-row">
+            <input type="checkbox" value={props.value} onChange={props.onChange} id={props.label} />
+            <label htmlFor={props.label} className="text-white">{props.label}</label>
         </div>
     )
 }

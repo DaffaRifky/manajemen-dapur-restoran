@@ -203,7 +203,7 @@ export default function SignupForm(){
 
             <hr className="text-gray-300 mt-4"/>
 
-            <button type="submit" disabled={signupMutation.isPending} className="bg-[#e6a23c] hover:bg-[#d49b3a] cursor-pointer text-center py-2 shadow-lg rounded-xl disabled:opacity-60 text-sm mt-6 text-white font-semibold">
+            <button type="submit" disabled={signupMutation.isPending} className="bg-[#e6a23c] hover:bg-[#d49b3a] cursor-pointer text-center py-2.5 shadow-lg rounded-xl disabled:opacity-60 text-sm mt-6 text-white font-semibold">
                 {signupMutation.isPending ? "Creating account..." : "Sign Up"}
             </button>
         </form>

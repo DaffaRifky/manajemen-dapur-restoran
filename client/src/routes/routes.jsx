@@ -4,8 +4,7 @@ import {
   BookOpen,
   HandPlatter,
   ChefHat,
-  Coins,
-  IdCard
+  Coins
 } from "lucide-react"
 // import pages
 import Login from "../pages/login";

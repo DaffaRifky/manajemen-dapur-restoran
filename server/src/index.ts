@@ -8,7 +8,7 @@ const PORT = 5000;
 app.use(express.json());
 app.use("/api/auth", authRouter);
 
-app.get("/" , async (req: Request, res: Response) => {
+app.get("/user" , async (req: Request, res: Response) => {
   const user = await prisma.user.findMany();
   const restaurant = await prisma.restaurant.findMany();
   res.json({ user, restaurant });

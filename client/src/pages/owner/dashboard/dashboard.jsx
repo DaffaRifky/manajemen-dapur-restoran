@@ -1,7 +1,9 @@
 import { Card } from "../../../components/cards"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
+
 export default function Dashboard(){
+
     return(
         <div className="grid gap-5 grid-cols-5">
             <Card />
@@ -15,6 +17,7 @@ export default function Dashboard(){
             </div>
             <div className="bg-white shadow rounded-2xl w-full h-80 col-span-3">
             </div>
+
         </div>
     )
 }
