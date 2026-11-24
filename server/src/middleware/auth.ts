@@ -1,4 +1,3 @@
-// middleware/requireAuth.ts
 import type { Request, Response, NextFunction } from "express";
 import { prisma, supabaseAdmin } from "../lib/client";
 
@@ -18,7 +17,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
   if (error || !data.user) return res.status(401).json({ message: "Invalid token" });
 
   const user = await prisma.user.findUnique({ where: { id: data.user.id } });
-  if (!user) return res.status(403).json({ message: "No tenant for this user" });
+  if (!user) return res.status(403).json({ message: "No restaurant for this user" });
 
   req.auth = { userId: user.id, restaurantId: user.restaurantId, role: user.role };
   next();

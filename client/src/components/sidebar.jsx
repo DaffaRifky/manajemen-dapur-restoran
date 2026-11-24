@@ -1,10 +1,9 @@
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { appRoutes, subAppRoutes } from "../routes/routes";
 import { IdCard, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import { supabase } from "../lib/supabase";
 
-export default function Sidebar(){
+export default function Sidebar(props){
     // styling tailwind
     const line = "w-full mx-auto rounded-2xl opacity-50"
     const button = "block text-left p-1.5 mt-2 rounded-xl hover:cursor-pointer"
@@ -21,28 +20,6 @@ export default function Sidebar(){
     const location = useLocation();
     const isStaffRoute = subAppRoutes.some(({ path }) => location.pathname === path);
     const staffOpen = ddActive || isStaffRoute; 
-
-    // logout logic
-    const navigate = useNavigate()
-    async function handleLogout() {
-        const { error } = await supabase.auth.signOut();
-
-        if (error) {
-            console.error("Logout failed:", error.message);
-        }
-
-        // checking if the logout succes or not
-        const { data } = await supabase.auth.getSession();
-
-        if (data.session !== null) {
-            console.error("Logout verification failed: a session still exists");
-            return;
-        }
-
-        console.log("Logout successful");
-
-        navigate("/login", { replace: true });
-    }
 
     return(
         <nav className="flex flex-col h-screen w-64 fixed inset-y-0 left-0 overflow-y-auto bg-[#1F2232] text-white border-r-2 border-black px-4">
@@ -99,7 +76,7 @@ export default function Sidebar(){
             <hr className={`${line} mt-auto`}/> {/* pembatas */}
             {/* bottom */}
 
-            <button className="hover:bg-red-500/30 text-red-500 text-left p-1.5 my-2 rounded-xl " onClick={handleLogout}>
+            <button className="hover:bg-red-500/30 text-red-500 text-left p-1.5 my-2 rounded-xl " onClick={props.handleLogout}>
                 Logout
             </button>
         </nav>

@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import { z } from "zod";
 import { prisma, supabaseAdmin, supabaseAnon } from "../lib/client";
+import { requireAuth } from "../middleware/auth";
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -129,4 +130,23 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     access_token: data.session.access_token,
     refresh_token: data.session.refresh_token,
   });
+});
+
+// fetching authed user data
+authRouter.get("/user", requireAuth , async (req: Request, res: Response) => {
+  const auth = req.auth;
+  if (!auth) return res.status(401).json({ message: "Unauthorized" });
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: auth.userId
+    }
+  });
+
+  const restaurant = await prisma.restaurant.findFirst({
+    where: {
+      id: auth.restaurantId
+    }
+  });
+  res.json({ user, restaurant });
 });

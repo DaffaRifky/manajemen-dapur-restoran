@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { NavLink ,useNavigate } from "react-router";
 import { InputField } from "./FormField";
 import { useState, type SubmitEvent, type ChangeEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ class SignupRequestError extends Error {
     constructor(message: string, fieldErrors?: FieldErrors) {
         super(message);
         this.name = "SignupRequestError";
-        this.fieldErrors = fieldErrors;
+        this.fieldErrors = fieldErrors!;
     }
 }
 
@@ -61,6 +61,7 @@ export default function SignupForm(){
 
             return response.json();
         },
+
         onSuccess: () => navigate("/login"),
         onError: (error) => {
             setValidationError((current) => ({
@@ -206,6 +207,13 @@ export default function SignupForm(){
             <button type="submit" disabled={signupMutation.isPending} className="bg-[#e6a23c] hover:bg-[#d49b3a] cursor-pointer text-center py-2.5 shadow-lg rounded-xl disabled:opacity-60 text-sm mt-6 text-white font-semibold">
                 {signupMutation.isPending ? "Creating account..." : "Sign Up"}
             </button>
+
+            <p className="text-sm text-gray-600 text-center pt-4">
+                Kembali ke halaman{" "}
+                <NavLink to="/login" className="text-amber-500 hover:underline">
+                    Login
+                </NavLink>
+            </p>
         </form>
     )
 }

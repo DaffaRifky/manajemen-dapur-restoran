@@ -1,20 +1,33 @@
 import { ImageCard, Section } from "../../../components/cards"
 import { InputField, SubmitFormButton } from "../../../form/FormField";
-import nasiGoreng from "../../../assets/nasiGoreng.png";
 import Modal from "../../../components/modal";
+import { MenuItems, MenuChategory } from "../../../data/menu";
 
 export default function Menu(){
     return(
         <>
-            <Section text="Makanan"/>
-            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6 mb-8">
-                <ImageCard image={nasiGoreng} name="Nasi Goreng"/>
-                <ImageCard image={"https://1.bp.blogspot.com/-HbGVESk7vwc/Xv07i1dGLlI/AAAAAAAALBY/G18Iwjx7XtYOewALDRHjcL8hHLA4jBiqQCK4BGAsYHg/s1000/cara-membuat-mie-ayam.jpg"} name="Mie Ayam"/>
-                <ImageCard image="add" name="" modalFor="card"/>
-            </div>
+            {/* map menu chategories and the menu items with corresponding chategory */}
+            {MenuChategory.map((menuChat) => (
+                <>
 
+                <Section text={menuChat}/>
+
+                <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-6 mb-8">
+                    {MenuItems.filter((item) => item.chategory === menuChat).map(({ image, name}) => (
+                        <ImageCard image={image} name={name}/>
+                    ))}
+
+                    {/* add new menu item card */}
+                    <ImageCard image="add" name="" modalFor="card"/>
+                </div>
+
+                </>
+            ))}
+
+            {/* add new menu chategory section */}
             <Section text="Tambah Kategi Baru" isAddSection="true" modalFor="section"/>
 
+            {/* add menu item modal form */}
             <Modal
             modalFor="card"
             title="Tambah Menu Baru"
@@ -26,12 +39,17 @@ export default function Menu(){
                 <SubmitFormButton text="Simpan" />
             </Modal>
 
+            {/* add menu chategory modal form */}
             <Modal
             modalFor="section"
             title="Tambah Kategori Baru"
             >
-                <InputField id="category-name" label="Nama Kategori" placeholder="Masukkan nama kategori"/>
-                <SubmitFormButton text="Simpan" />
+                <form action="">
+                    <InputField id="category-name" label="Nama Kategori" placeholder="Masukkan nama kategori"/>
+
+                    <SubmitFormButton text="Simpan" />
+                </form>
+
             </Modal>
 
         </>
